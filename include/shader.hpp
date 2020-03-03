@@ -26,7 +26,9 @@ private:
     GLint model, view, proj;
 
     std::string readFile(std::string filename);
-
+    void printProgramLog(GLuint program);
+    void printShaderLog(GLuint shader);
+    
 public:
     Shader();
     Shader(std::string vertFilename, std::string fragFilename);

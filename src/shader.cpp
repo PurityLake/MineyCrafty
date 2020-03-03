@@ -40,6 +40,7 @@ void Shader::init() {
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &shaderCompiled);
     if (shaderCompiled != GL_TRUE) {
         cerr << "Unable to compile vertex shader " << vertexShader << endl;
+        printShaderLog(vertexShader);
         return;
     } else {
         glAttachShader(program, vertexShader);
@@ -51,16 +52,8 @@ void Shader::init() {
         glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &shaderCompiled);
         if (shaderCompiled != GL_TRUE) {
             cerr << "Unable to compile fragmentshader " << fragmentShader << " " << endl;
-            int infoLogLength = 0;
-            int maxLength = infoLogLength;
-            glGetShaderiv( fragmentShader, GL_INFO_LOG_LENGTH, &maxLength );
-            char* infoLog = new char[ maxLength ];
-            glGetShaderInfoLog( fragmentShader, maxLength, &infoLogLength, infoLog );
-            if( infoLogLength > 0 )
-            {
-                cerr << infoLog << endl;
-            }
-            delete[] infoLog;
+            printShaderLog(fragmentShader);
+            return;
         } else {
             glAttachShader(program, fragmentShader);
             glLinkProgram(program);
@@ -68,6 +61,7 @@ void Shader::init() {
             glGetProgramiv(program, GL_LINK_STATUS, &programSuccess);
             if (programSuccess != GL_TRUE) {
                 cerr << "Error linking program " << program << endl;
+                printProgramLog(program);
                 return;
             } else {
                 glDeleteShader(vertexShader);
@@ -103,5 +97,29 @@ void Shader::activate(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p
 }
 
 void Shader::deactivate() {
-    glUseProgram(NULL);
+    glUseProgram(0);
+}
+
+void Shader::printProgramLog(GLuint program) {
+    int infoLogLength = 0;
+    int maxLength = infoLogLength;
+    glGetProgramiv( program, GL_INFO_LOG_LENGTH, &maxLength );
+    char* infoLog = new char[ maxLength ];
+    glGetProgramInfoLog( program, maxLength, &infoLogLength, infoLog );
+    if( infoLogLength > 0 ) {
+        cerr << infoLog << endl;
+    }
+    delete[] infoLog;
+}
+
+void Shader::printShaderLog(GLuint shader) {
+    int infoLogLength = 0;
+    int maxLength = infoLogLength;
+    glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &maxLength );
+    char* infoLog = new char[ maxLength ];
+    glGetShaderInfoLog( shader, maxLength, &infoLogLength, infoLog );
+    if( infoLogLength > 0 ) {
+        cerr << infoLog << endl;
+    }
+    delete[] infoLog;
 }
