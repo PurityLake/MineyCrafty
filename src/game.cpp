@@ -1,5 +1,7 @@
 #include <game.hpp>
 
+#include <SDL_image.h>
+
 #include <chrono>
 #include <iostream>
 
@@ -23,32 +25,36 @@ void Game::init() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         cerr << "SDL could not initialise! SDL_Error: " << SDL_GetError() << endl;
     } else {
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
-        window = SDL_CreateWindow("MineyCrafty", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                            SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
-        if (window == NULL) {
-            cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << endl;
+        if (IMG_Init(IMG_INIT_PNG) < 0) {
+            cerr << "SDL_image could not initialise! " << IMG_GetError() << endl;
         } else {
-            context = SDL_GL_CreateContext(window);
-            if (context == NULL) {
-                cerr << "OpenGL context could not be created! SDL Error: " << SDL_GetError() << endl;
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+            window = SDL_CreateWindow("MineyCrafty", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+            if (window == NULL) {
+                cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << endl;
             } else {
-                glewExperimental = GL_TRUE;
-                GLenum glewError = glewInit();
-                if (glewError != GLEW_OK) {
-                    cerr << "Error initializing GLEW! " << glewGetErrorString(glewError) << endl;
+                context = SDL_GL_CreateContext(window);
+                if (context == NULL) {
+                    cerr << "OpenGL context could not be created! SDL Error: " << SDL_GetError() << endl;
+                } else {
+                    glewExperimental = GL_TRUE;
+                    GLenum glewError = glewInit();
+                    if (glewError != GLEW_OK) {
+                        cerr << "Error initializing GLEW! " << glewGetErrorString(glewError) << endl;
+                    }
+                    if (SDL_GL_SetSwapInterval(1) < 0) {
+                        cerr << "Warning: Unable to set VSync! SDL Error: %s\n" << SDL_GetError() << endl;
+                    }
+                    glEnable(GL_DEPTH_TEST);
+                    glDepthFunc(GL_LESS);
+                    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+                    glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    prim.init();
                 }
-                if (SDL_GL_SetSwapInterval(1) < 0) {
-                    cerr << "Warning: Unable to set VSync! SDL Error: %s\n" << SDL_GetError() << endl;
-                }
-                glEnable(GL_DEPTH_TEST);
-                glDepthFunc(GL_LESS);
-                glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-                glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-                prim.init();
             }
         }
     }

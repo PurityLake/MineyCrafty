@@ -51,7 +51,7 @@ void Shader::init() {
         glCompileShader(fragmentShader);
         glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &shaderCompiled);
         if (shaderCompiled != GL_TRUE) {
-            cerr << "Unable to compile fragmentshader '" << fragFilename << '\'' << endl;
+            cerr << "Unable to compile fragment shader '" << fragFilename << '\'' << endl;
             printShaderLog(fragmentShader);
             return;
         } else {
