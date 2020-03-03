@@ -57,7 +57,7 @@ else()
         DESTINATION "."
         FILES_MATCHING
             PATTERN "SDL*.dll")
-            file(COPY "${GLEW_PATH}\\bin\\x86\\glew32.dll" DESTINATION ".")
+        file(COPY "${GLEW_PATH}\\bin\\x86\\glew32.dll" DESTINATION ".")
     endif()
     
     add_executable(MineyCrafty ${SOURCES})

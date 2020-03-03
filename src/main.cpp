@@ -15,8 +15,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #else
 int main(int argc, char **args) {
 #endif
-	cout << mc::util::joinPath({"resources", "textureatlas", "hello.png"}) << endl;
-	
     mc::Game game;
     game.init();
 
