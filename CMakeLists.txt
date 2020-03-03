@@ -43,6 +43,12 @@ else()
 
     include_directories(${CMAKE_SOURCE_DIR}/include ${GLEW_INCLUDE_DIRS}
         ${SDL2_INCLUDE_DIRS})
+
+    set(MINGW_FILE_NAMES
+        "C:\\MinGW\\bin\\libstdc++-6.dll"
+        "C:\\MinGW\\bin\\libgcc_s_dw2-1.dll")
+    
+    file(COPY ${MINGW_FILE_NAMES} DESTINATION ".")
     
     if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
         link_directories("${SDL2_PATH}\\lib\\x64;${GLEW_PATH}\\lib\\x64")
