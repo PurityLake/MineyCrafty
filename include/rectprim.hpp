@@ -2,7 +2,11 @@
 #define __HPP_RECTPRIM__
 
 #include <GL/glew.h>
-#include <OpenGL/glu.h>
+#ifdef _WIN32
+# include <GL/glu.h>
+#else
+# include <OpenGL//glu.h>
+#endif
 
 namespace MineyCrafty {
 

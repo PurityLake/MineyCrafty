@@ -1,18 +1,22 @@
-#include <SDL.h>
-#include <GL/glew.h>
-#include <SDL_opengl.h>
-#include <OpenGL/glu.h>
 #include <iostream>
+
+#ifdef _WIN32
+# include <Windows.h>
+#endif
 
 #include <game.hpp>
 
-void printProgramLog(GLuint program);
-void printShaderLog(GLuint shader);
+//void printProgramLog(GLuint program);
+//void printShaderLog(GLuint shader);
 
 using namespace std;
 namespace mc = MineyCrafty;
 
+#ifdef _WIN32
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+#else
 int main(int argc, char **args) {
+#endif
     mc::Game game;
     game.init();
 
@@ -33,6 +37,7 @@ int main(int argc, char **args) {
     return 0;
 }
 
+/*
 void printProgramLog( GLuint program )
 {
 	//Make sure name is shader
@@ -96,3 +101,4 @@ void printShaderLog( GLuint shader )
 		printf( "Name %d is not a shader\n", shader );
 	}
 }
+*/

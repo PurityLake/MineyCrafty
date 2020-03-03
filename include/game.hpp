@@ -4,7 +4,11 @@
 #include <SDL.h>
 #include <GL/glew.h>
 #include <SDL_opengl.h>
-#include <OpenGL/glu.h>
+#ifdef _WIN32
+# include <GL/glu.h>
+#else
+# include <OpenGL//glu.h>
+#endif
 
 #include <rectprim.hpp>
 #include <cube.hpp>
