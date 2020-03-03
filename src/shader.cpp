@@ -39,7 +39,7 @@ void Shader::init() {
     GLint shaderCompiled = GL_FALSE;
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &shaderCompiled);
     if (shaderCompiled != GL_TRUE) {
-        cerr << "Unable to compile vertex shader " << vertexShader << endl;
+        cerr << "Unable to compile vertex shader '" << vertFilename << '\'' << endl;
         printShaderLog(vertexShader);
         return;
     } else {
@@ -51,7 +51,7 @@ void Shader::init() {
         glCompileShader(fragmentShader);
         glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &shaderCompiled);
         if (shaderCompiled != GL_TRUE) {
-            cerr << "Unable to compile fragmentshader " << fragmentShader << " " << endl;
+            cerr << "Unable to compile fragmentshader '" << fragFilename << '\'' << endl;
             printShaderLog(fragmentShader);
             return;
         } else {
