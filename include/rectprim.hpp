@@ -37,6 +37,6 @@ private:
     };
 };
 
-}
+} // namespace MineyCrafty
 
 #endif /* __HPP_RECTPRIM__ */

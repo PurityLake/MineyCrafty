@@ -23,6 +23,7 @@ set(SOURCES
     src/game.cpp
     src/rectprim.cpp
     src/cube.cpp
+    src/shader.cpp
     src/main.cpp)
 
 add_executable(MineyCrafty ${SOURCES})

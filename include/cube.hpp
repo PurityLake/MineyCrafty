@@ -9,14 +9,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <shader.hpp>
+
 namespace MineyCrafty {
 
 class Cube {
 private:
-    GLuint program;
+    Shader shader;
     GLuint vao, vbo, color;
-    GLint uniTrans;
-    GLint posAttrib, colAttrib;
 
 public:
     Cube();
@@ -26,36 +26,6 @@ public:
     void draw(glm::mat4& trans);
 
 private:
-    static constexpr GLchar* vertexShaderSource[] = {
-        "#version 330 core\n"
-        "layout(location = 0) in vec3 position;\n"
-        "layout(location = 1) in vec3 color;\n"
-
-        "uniform mat4 trans;\n"
-        "uniform mat4 view;\n"
-        "uniform mat4 proj;\n"
-
-        "out vec3 Color;\n"
-        
-        "void main() {\n"
-            "Color = color;\n"
-            "gl_Position = proj * view * trans * vec4(position, 1.0);\n"
-        "}"
-    };
-
-    static constexpr GLchar* fragmentShaderSource[] = {
-        "#version 330 core\n"
-        "in vec3 Color;\n"
-
-        "out vec4 outColor;\n"
-        
-        "void main() {\n"
-            "outColor = vec4(Color, 1.0);\n"
-        "}"
-    };
-   
-    
-    
     static constexpr GLfloat vertices[] = {
         -1.0f, -1.0f, -1.0f,
         -1.0f, -1.0f,  1.0f,
@@ -135,5 +105,6 @@ private:
 	};
 };
 
-}
+} // namespace MineyCrafty
+
 #endif /* __HPP_CUBE__ */

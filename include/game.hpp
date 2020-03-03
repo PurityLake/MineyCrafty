@@ -27,6 +27,6 @@ public:
     void render();
 };
 
-}
+} // namespace MineyCrafty
 
 #endif /* __HPP_GAME__ */
