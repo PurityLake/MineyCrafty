@@ -8,7 +8,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SOURCES
     src/game.cpp
-    src/rectprim.cpp
     src/cube.cpp
     src/shader.cpp
     src/main.cpp)
@@ -43,7 +42,7 @@ else()
     include_directories(${CMAKE_SOURCE_DIR}/include ${GLEW_INCLUDE_DIRS}
         ${SDL2_INCLUDE_DIRS})
     
-        if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
+    if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
         link_directories("${SDL2_PATH}\\lib\\x64;${GLEW_PATH}\\lib\\x64")
     else()
         link_directories("${SDL2_PATH}\\lib\\x86;${GLEW_PATH}\\lib\\x86")
