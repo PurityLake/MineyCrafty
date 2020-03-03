@@ -13,27 +13,8 @@ set(SOURCES
     src/texture.cpp
     src/main.cpp)
 
-if(!WIN32)
-    find_package(OpenGL REQUIRED)
-    find_package(GLEW REQUIRED)
-    find_package(SDL2 REQUIRED)
-    find_package(SDL2_image REQUIRED)
-    find_package(SDL2_ttf REQUIRED)
-    find_package(SDL2_mixer REQUIRED)
-    find_package(SDL2_gfx REQUIRED)
-    find_package(SDL2_net REQUIRED)
-    
-    include_directories(${CMAKE_SOURCE_DIR}/include ${GLEW_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} 
-        ${SDL2_TTF_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS} ${SDL2_GFX_INCLUDE_DIRS}
-        ${SDL2_NET_INCLUDE_DIRS})# ${BULLET_INCLUDE_DIRS})
-
-    add_executable(MineyCrafty ${SOURCES})
-    target_link_libraries(MineyCrafty ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} 
-        ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARY} 
-        ${SDL2_MIXER_LIBRARY} ${SDL2_GFX_LIBRARY} ${SDL2_NET_LIBRARY})
-        #${BULLET_LBRARIES})
-else()
-    set(SDL_PATH "C:\\gamedev\\sdl")
+if(WIN32)
+   set(SDL_PATH "C:\\gamedev\\sdl")
     set(GLEW_PATH "C:\\gamedev\\glew")
     list(APPEND CMAKE_PREFIX_PATH ${SDL_PATH})
     list(APPEND CMAKE_PREFIX_PATH ${GLEW_PATH})
@@ -75,7 +56,27 @@ else()
     target_link_libraries(MineyCrafty ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} 
         ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARY} 
         ${SDL2_MIXER_LIBRARY})
-        #${BULLET_LBRARIES})
+        #${BULLET_LBRARIES}) 
+else()
+    find_package(OpenGL REQUIRED)
+    find_package(GLEW REQUIRED)
+    find_package(SDL2 REQUIRED)
+    find_package(SDL2_image REQUIRED)
+    find_package(SDL2_ttf REQUIRED)
+    find_package(SDL2_mixer REQUIRED)
+    find_package(SDL2_gfx REQUIRED)
+    find_package(SDL2_net REQUIRED)
+
+    include_directories(${CMAKE_SOURCE_DIR}/include ${GLEW_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} 
+        ${SDL2_TTF_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS} ${SDL2_GFX_INCLUDE_DIRS}
+        ${SDL2_NET_INCLUDE_DIRS})# ${BULLET_INCLUDE_DIRS})
+
+    add_executable(MineyCrafty ${SOURCES})
+    target_link_libraries(MineyCrafty ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} 
+        ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARY} 
+        ${SDL2_MIXER_LIBRARY} ${SDL2_GFX_LIBRARY} ${SDL2_NET_LIBRARY})
+        #${BULLET_LBRARIES}) 
 endif()
+
 #find_package(Bullet REQUIRED)
 file(COPY "resources" DESTINATION ".")

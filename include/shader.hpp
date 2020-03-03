@@ -9,7 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <GL/glew.h>
-#ifdef _WIN32
+#ifndef __APPLE__
 # include <GL/glu.h>
 #else
 # include <OpenGL//glu.h>

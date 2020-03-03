@@ -4,10 +4,11 @@
 #include <SDL.h>
 #include <GL/glew.h>
 #include <SDL_opengl.h>
-#ifdef _WIN32
+
+#ifndef __APPLE__
 # include <GL/glu.h>
 #else
-# include <OpenGL//glu.h>
+# include <OpenGL/glu.h>
 #endif
 
 #include <util.hpp>

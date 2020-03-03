@@ -2,10 +2,10 @@
 #define __HPP_CUBE__
 
 #include <GL/glew.h>
-#ifdef _WIN32
+#ifndef __APPLE__
 # include <GL/glu.h>
 #else
-# include <OpenGL//glu.h>
+# include <OpenGL/glu.h>
 #endif
 
 #define GLM_FORCE_RADIANS
