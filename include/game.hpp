@@ -29,6 +29,7 @@ public:
 
     void init();
     void render();
+    void finalise();
 };
 
 } // namespace MineyCrafty

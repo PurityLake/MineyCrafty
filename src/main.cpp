@@ -31,6 +31,8 @@ int main(int argc, char **args) {
         }
         game.render();
     }
+    
+    game.finalise();
     //SDL_StopTextInput();
     return 0;
 }
