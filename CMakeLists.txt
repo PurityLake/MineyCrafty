@@ -48,7 +48,7 @@ else()
         link_directories("${SDL2_PATH}\\lib\\x86;${GLEW_PATH}\\lib\\x86")
     endif()
     
-    add_executable(MineyCrafty WIN32 ${SOURCES})
+    add_executable(MineyCrafty ${SOURCES})
     target_link_libraries(MineyCrafty ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} 
         ${SDL2_LIBRARY})
         #${BULLET_LBRARIES})

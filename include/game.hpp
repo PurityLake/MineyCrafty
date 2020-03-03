@@ -10,6 +10,7 @@
 # include <OpenGL//glu.h>
 #endif
 
+#include <util.hpp>
 #include <cube.hpp>
 
 namespace MineyCrafty {

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <util.hpp>
+
 using namespace std;
 using namespace MineyCrafty;
 
@@ -14,7 +16,9 @@ Cube::~Cube() {
 }
 
 void Cube::init() {
-    shader = Shader("vert.glsl", "frag.glsl");
+    shader = Shader(
+        util::joinPath({"resources","vert.glsl"}),
+        util::joinPath({"resources", "frag.glsl"}));
     shader.init();
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
