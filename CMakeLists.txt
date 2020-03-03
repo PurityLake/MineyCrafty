@@ -10,6 +10,7 @@ set(SOURCES
     src/game.cpp
     src/cube.cpp
     src/shader.cpp
+    src/texture.cpp
     src/main.cpp)
 
 if(!WIN32)
@@ -40,6 +41,9 @@ else()
     find_package(OpenGL REQUIRED)
     find_package(GLEW REQUIRED)
     find_package(SDL2 REQUIRED)
+    find_package(SDL2_image REQUIRED)
+    find_package(SDL2_ttf REQUIRED)
+    find_package(SDL2_mixer REQUIRED)
 
     include_directories(${CMAKE_SOURCE_DIR}/include ${GLEW_INCLUDE_DIRS}
         ${SDL2_INCLUDE_DIRS})
@@ -67,8 +71,10 @@ else()
     endif()
     
     add_executable(MineyCrafty ${SOURCES})
+    message("${SDL2_LIBRARY}")
     target_link_libraries(MineyCrafty ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} 
-        ${SDL2_LIBRARY})
+        ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARY} 
+        ${SDL2_MIXER_LIBRARY})
         #${BULLET_LBRARIES})
 endif()
 #find_package(Bullet REQUIRED)
