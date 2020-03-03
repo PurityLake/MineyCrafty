@@ -32,8 +32,10 @@ if(!WIN32)
         ${SDL2_MIXER_LIBRARY} ${SDL2_GFX_LIBRARY} ${SDL2_NET_LIBRARY})
         #${BULLET_LBRARIES})
 else()
-    list(APPEND CMAKE_PREFIX_PATH "C:\\gamedev\\sdl")
-    list(APPEND CMAKE_PREFIX_PATH "C:\\gamedev\\glew")
+    set(SDL_PATH "C:\\gamedev\\sdl")
+    set(GLEW_PATH "C:\\gamedev\\glew")
+    list(APPEND CMAKE_PREFIX_PATH ${SDL_PATH})
+    list(APPEND CMAKE_PREFIX_PATH ${GLEW_PATH})
     
     find_package(OpenGL REQUIRED)
     find_package(GLEW REQUIRED)
@@ -44,8 +46,18 @@ else()
     
     if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
         link_directories("${SDL2_PATH}\\lib\\x64;${GLEW_PATH}\\lib\\x64")
+        file(COPY "${SDL_PATH}\\lib\\x64\\*.dll" 
+            DESTINATION "."
+            FILES_MATCHING
+                PATTERN "SDL*.dll")
+        file(COPY "${GLEW_PATH}\\bin\\x64\\glew32.dll" DESTINATION ".")
     else()
         link_directories("${SDL2_PATH}\\lib\\x86;${GLEW_PATH}\\lib\\x86")
+        file(COPY "${SDL_PATH}\\lib\\x86\\" 
+        DESTINATION "."
+        FILES_MATCHING
+            PATTERN "SDL*.dll")
+            file(COPY "${GLEW_PATH}\\bin\\x86\\glew32.dll" DESTINATION ".")
     endif()
     
     add_executable(MineyCrafty ${SOURCES})
@@ -54,3 +66,4 @@ else()
         #${BULLET_LBRARIES})
 endif()
 #find_package(Bullet REQUIRED)
+file(COPY "resources" DESTINATION ".")
