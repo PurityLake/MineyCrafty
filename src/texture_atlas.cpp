@@ -25,8 +25,8 @@ void TextureAtlas::init() {
     numCols = width / cellWidth;
     glGenTextures(1, &atlas);
     glBindTexture(GL_TEXTURE_2D, atlas);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->w, texture->h, 0,
 		GL_RGB, GL_UNSIGNED_BYTE, texture->pixels);
@@ -48,124 +48,154 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
             pair<int, int> right, pair<int, int> bottom) {
     vector<GLfloat> coords;
     coords.reserve(36 * 2);
-    if (const auto& [x, y] = top; x >= 0 && y >= 0) {
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
+    if (const auto& [_x, _y] = top; _x >= 0 && _y >= 0) {
+        GLfloat xleft = (GLfloat)(_x * cellWidth)  / width;
+        GLfloat ytop = (GLfloat)(_y * cellHeight) / height;
+        GLfloat xright = ((GLfloat)(_x * cellWidth) + cellWidth) / width; 
+        GLfloat ybottom = (GLfloat)((_y * cellHeight) + cellHeight) / height; 
+
+        coords.push_back(xleft);
+        coords.push_back(ytop);
         
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
+        coords.push_back(xright);
+        coords.push_back(ytop);
 
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+        coords.push_back(xright);
+        coords.push_back(ybottom);
 
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+        coords.push_back(xright);
+        coords.push_back(ybottom);
 
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
+        coords.push_back(xleft);
+        coords.push_back(ytop);
         
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+        coords.push_back(xleft);
+        coords.push_back(ybottom);
     }
 
-    if (const auto& [x, y] = forward; x >= 0 && y >= 0) {
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+    if (const auto& [_x, _y] = forward; _x >= 0 && _y >= 0) {
+        GLfloat xleft = (GLfloat)(_x * cellWidth)  / width;
+        GLfloat ytop = (GLfloat)(_y * cellHeight) / height;
+        GLfloat xright = ((GLfloat)(_x * cellWidth) + cellWidth) / width; 
+        GLfloat ybottom = (GLfloat)((_y * cellHeight) + cellHeight) / height; 
+
+        coords.push_back(xleft);
+        coords.push_back(ybottom);
         
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+        coords.push_back(xright);
+        coords.push_back(ybottom);
 
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
+        coords.push_back(xright);
+        coords.push_back(ytop);
 
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+        coords.push_back(xleft);
+        coords.push_back(ybottom);
 
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
+        coords.push_back(xright);
+        coords.push_back(ytop);
 
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
+        coords.push_back(xleft);
+        coords.push_back(ytop);
     }
 
-    if (const auto& [x, y] = left; x >= 0 && y >= 0) {
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
+    if (const auto& [_x, _y] = left; _x >= 0 && _y >= 0) {
+        GLfloat xleft = (GLfloat)(_x * cellWidth)  / width;
+        GLfloat ytop = (GLfloat)(_y * cellHeight) / height;
+        GLfloat xright = ((GLfloat)(_x * cellWidth) + cellWidth) / width; 
+        GLfloat ybottom = (GLfloat)((_y * cellHeight) + cellHeight) / height; 
 
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+        coords.push_back(xright);
+        coords.push_back(ytop);
 
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
+        coords.push_back(xleft);
+        coords.push_back(ybottom);
 
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
+        coords.push_back(xleft);
+        coords.push_back(ytop);
 
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+        coords.push_back(xright);
+        coords.push_back(ytop);
 
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+        coords.push_back(xright);
+        coords.push_back(ybottom);
+
+        coords.push_back(xleft);
+        coords.push_back(ybottom);
     }
 
-    if (const auto& [x, y] = backward; x >= 0 && y >= 0) {
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
-
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
-
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
-
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
-
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
-
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
-    }
-
-    if (const auto& [x, y] = right; x >= 0 && y >= 0) {
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
-
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
-
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
-
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
-
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
-
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
-    }
-
-    if (const auto& [x, y] = bottom; x >= 0 && y >= 0) {
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
+    if (const auto& [_x, _y] = backward; _x >= 0 && _y >= 0) {
+        GLfloat xleft = (GLfloat)(_x * cellWidth)  / width;
+        GLfloat ytop = (GLfloat)(_y * cellHeight) / height;
+        GLfloat xright = ((GLfloat)(_x * cellWidth) + cellWidth) / width; 
+        GLfloat ybottom = (GLfloat)((_y * cellHeight) + cellHeight) / height; 
         
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
+        coords.push_back(xright);
+        coords.push_back(ytop);
 
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+        coords.push_back(xleft);
+        coords.push_back(ybottom);
 
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+        coords.push_back(xleft);
+        coords.push_back(ytop);
 
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
+        coords.push_back(xleft);
+        coords.push_back(ybottom);
+
+        coords.push_back(xright);
+        coords.push_back(ytop);
+
+        coords.push_back(xright);
+        coords.push_back(ybottom);
+    }
+
+    if (const auto& [_x, _y] = right; _x >= 0 && _y >= 0) {
+        GLfloat xleft = (GLfloat)(_x * cellWidth)  / width;
+        GLfloat ytop = (GLfloat)(_y * cellHeight) / height;
+        GLfloat xright = ((GLfloat)(_x * cellWidth) + cellWidth) / width; 
+        GLfloat ybottom = (GLfloat)((_y * cellHeight) + cellHeight) / height; 
+
+        coords.push_back(xright);
+        coords.push_back(ytop);
+
+        coords.push_back(xleft);
+        coords.push_back(ybottom);
+
+        coords.push_back(xright);
+        coords.push_back(ybottom);
+
+        coords.push_back(xleft);
+        coords.push_back(ytop);
+
+        coords.push_back(xright);
+        coords.push_back(ytop);
+
+        coords.push_back(xright);
+        coords.push_back(ybottom);
+    }
+
+    if (const auto& [_x, _y] = bottom; _x >= 0 && _y >= 0) {
+        GLfloat xleft = (GLfloat)(_x * cellWidth)  / width;
+        GLfloat ytop = (GLfloat)(_y * cellHeight) / height;
+        GLfloat xright = ((GLfloat)(_x * cellWidth) + cellWidth) / width; 
+        GLfloat ybottom = (GLfloat)((_y * cellHeight) + cellHeight) / height; 
+
+        coords.push_back(xleft);
+        coords.push_back(ytop);
         
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+        coords.push_back(xright);
+        coords.push_back(ytop);
+
+        coords.push_back(xright);
+        coords.push_back(ybottom);
+
+        coords.push_back(xright);
+        coords.push_back(ybottom);
+
+        coords.push_back(xleft);
+        coords.push_back(ytop);
+        
+        coords.push_back(xleft);
+        coords.push_back(ybottom);
     }
     return coords;
 }

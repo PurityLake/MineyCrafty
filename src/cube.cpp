@@ -31,7 +31,7 @@ void Cube::init() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, texcoord);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), &coords[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, coords.size() * sizeof(GLfloat), &coords[0], GL_STATIC_DRAW);
 }
 
 void Cube::draw(glm::mat4& trans) {

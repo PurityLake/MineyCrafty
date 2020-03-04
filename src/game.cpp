@@ -48,6 +48,7 @@ void Game::init() {
                     }
                     glEnable(GL_DEPTH_TEST);
                     glEnable(GL_TEXTURE_2D);
+                    glEnable(GL_POLYGON_SMOOTH);
                     glDepthFunc(GL_LESS);
                     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
                     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
