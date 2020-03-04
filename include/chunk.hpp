@@ -1,6 +1,7 @@
 #ifndef __HPP_CHUNK__
 #define __HPP_CHUNK__
 
+#include <tuple>
 #include <vector>
 
 #include <GL/glew.h>
@@ -28,14 +29,14 @@ private:
     Shader shader;
     TextureAtlas atlas;
     GLuint vao, vbo, texcoord;
-    std::vector<std::vector<std::vector<glm::vec3>>> chunk;
-    std::vector<std::vector<std::vector<glm::vec2>>> texcoords;
+    std::vector<std::tuple<int, int, int>> blocks;
 
 public:
     Chunk();
     virtual ~Chunk();
 
     void init();
+    void update();
     void draw(glm::mat4& trans);
     void addCube(int x, int y, int z);
     void finalise();

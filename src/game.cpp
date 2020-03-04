@@ -54,6 +54,14 @@ void Game::init() {
                     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                     //prim.init();
                     chunk.init();
+                    chunk.addCube(0, 0, 0);
+                    chunk.addCube(1, 0, 0);
+                    chunk.addCube(0, 1, 0);
+                    chunk.addCube(0, 0, 1);
+                    chunk.addCube(0, 1, 1);
+                    chunk.addCube(3, 0, 0);
+                    chunk.addCube(0, 2, 0);
+                    chunk.update();
                 }
             }
         }
