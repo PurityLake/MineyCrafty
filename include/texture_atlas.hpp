@@ -22,14 +22,14 @@ private:
     SDL_Surface *texture;
     int width, height;
     int cellWidth = 32, cellHeight = 32;
-    std::vector<GLuint> textures;
+    std::vector<std::vector<GLuint>> textures;
 public:
     TextureAtlas();
     TextureAtlas(std::string atlasFilename);
     virtual ~TextureAtlas();
 
     void init();
-    void activate(GLuint program, GLint texLoc);
+    void activate(GLuint program, GLint texLoc, unsigned int x, unsigned int y);
     void finalise();
 
     void setCellDims(int w, int h);
