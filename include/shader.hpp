@@ -37,6 +37,7 @@ public:
     void init();
     void activate(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p);
     void deactivate();
+    void finalise();
 
     GLint getVert() const {
         return vert;

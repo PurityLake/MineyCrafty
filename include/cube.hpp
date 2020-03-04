@@ -14,6 +14,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <shader.hpp>
+#include <texture_atlas.hpp>
 
 namespace MineyCrafty {
 
@@ -21,6 +22,7 @@ class Cube {
 private:
     Shader shader;
     GLuint vao, vbo, color;
+    TextureAtlas atlas;
 
 public:
     Cube();
@@ -28,6 +30,7 @@ public:
 
     void init();
     void draw(glm::mat4& trans);
+    void finalise();
 
 private:
     static constexpr GLfloat vertices[] = {

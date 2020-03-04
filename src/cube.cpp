@@ -20,6 +20,7 @@ void Cube::init() {
         util::joinPath({"resources","vert.glsl"}),
         util::joinPath({"resources", "frag.glsl"}));
     shader.init();
+    atlas.init();
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
     glGenBuffers(1, &color);
@@ -47,4 +48,9 @@ void Cube::draw(glm::mat4& trans) {
     glVertexAttribPointer(shader.getCol(), 3, GL_FLOAT, GL_FALSE, 0, 0);
     glDrawArrays(GL_TRIANGLES, 0, 36);
     shader.deactivate();
+}
+
+void Cube::finalise() {
+    shader.finalise();
+    atlas.finalise();
 }

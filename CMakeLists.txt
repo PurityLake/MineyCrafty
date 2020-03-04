@@ -10,11 +10,11 @@ set(SOURCES
     src/game.cpp
     src/cube.cpp
     src/shader.cpp
-    src/texture.cpp
+    src/texture_atlas.cpp
     src/main.cpp)
 
 if(WIN32)
-   set(SDL_PATH "C:\\gamedev\\sdl")
+    set(SDL_PATH "C:\\gamedev\\sdl")
     set(GLEW_PATH "C:\\gamedev\\glew")
     list(APPEND CMAKE_PREFIX_PATH ${SDL_PATH})
     list(APPEND CMAKE_PREFIX_PATH ${GLEW_PATH})

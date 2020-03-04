@@ -11,9 +11,7 @@ GLint vert, col;
 Shader::Shader() { }
 Shader::Shader(string vertFilename, string fragFilename)
     : vertFilename(vertFilename), fragFilename(fragFilename) { }
-Shader::~Shader() {
-    glDeleteShader(program);
-}
+Shader::~Shader() { }
 
 string Shader::readFile(string filename) {
     ifstream in(filename, ios::in);
@@ -98,6 +96,10 @@ void Shader::activate(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p
 
 void Shader::deactivate() {
     glUseProgram(0);
+}
+
+void Shader::finalise() {
+    glDeleteShader(program);
 }
 
 void Shader::printProgramLog(GLuint program) {

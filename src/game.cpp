@@ -2,7 +2,6 @@
 
 #include <SDL_image.h>
 
-#include <chrono>
 #include <iostream>
 
 #define GLM_FORCE_RADIANS
@@ -16,9 +15,7 @@ Game::Game() {
 
 }
 Game::~Game() {
-    if (window) {
-        SDL_DestroyWindow(window);
-    }
+
 }
 
 void Game::init() {
@@ -79,4 +76,5 @@ void Game::finalise() {
         SDL_DestroyWindow(window);
         window = nullptr;        
     }
+    prim.finalise();
 }
