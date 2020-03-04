@@ -21,7 +21,7 @@ namespace MineyCrafty {
 class Cube {
 private:
     Shader shader;
-    GLuint vao, vbo, color;
+    GLuint vao, vbo, texcoord;
     TextureAtlas atlas;
 
 public:

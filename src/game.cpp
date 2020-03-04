@@ -47,6 +47,7 @@ void Game::init() {
                         cerr << "Warning: Unable to set VSync! SDL Error: %s\n" << SDL_GetError() << endl;
                     }
                     glEnable(GL_DEPTH_TEST);
+                    glEnable(GL_TEXTURE_2D);
                     glDepthFunc(GL_LESS);
                     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
                     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);

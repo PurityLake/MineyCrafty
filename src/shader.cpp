@@ -6,8 +6,6 @@
 using namespace std;
 using namespace MineyCrafty;
 
-GLint vert, col;
-
 Shader::Shader() { }
 Shader::Shader(string vertFilename, string fragFilename)
     : vertFilename(vertFilename), fragFilename(fragFilename) { }
@@ -69,9 +67,9 @@ void Shader::init() {
                     cerr << "vert is not a valid glsl program variable!" << endl;
                     return;
                 } else {
-                    col = glGetAttribLocation(program, "col");
-                    if (col == -1) {
-                        cerr << "col is not a valid glsl program variable!" << endl;
+                    texcoord = glGetAttribLocation(program, "texcoord");
+                    if (texcoord == -1) {
+                        cerr << "texcoord is not a valid glsl program variable!" << endl;
                         return;
                     } else {
                         model = glGetUniformLocation(program, "model");

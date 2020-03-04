@@ -22,7 +22,7 @@ private:
     bool valid = false;
     std::string vertFilename, fragFilename;
     GLuint program = 0;
-    GLint vert, col;
+    GLint vert, texcoord;
     GLint model, view, proj;
 
     std::string readFile(std::string filename);
@@ -39,12 +39,15 @@ public:
     void deactivate();
     void finalise();
 
+    const GLuint getProgram() const {
+        return program;
+    }
+
     GLint getVert() const {
         return vert;
     }
-
-    GLint getCol() const {
-        return col;
+    GLint getTexCoord() const {
+        return texcoord;
     }
 };
 

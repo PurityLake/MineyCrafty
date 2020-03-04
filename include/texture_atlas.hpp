@@ -19,18 +19,22 @@ namespace MineyCrafty {
 class TextureAtlas {
 private:
     std::string filename;
-    SDL_Surface *texture;
+    GLuint atlas;
     int width, height;
     int cellWidth = 32, cellHeight = 32;
-    std::vector<std::vector<GLuint>> textures;
 public:
     TextureAtlas();
     TextureAtlas(std::string atlasFilename);
     virtual ~TextureAtlas();
 
     void init();
-    void activate(GLuint program, GLint texLoc, unsigned int x, unsigned int y);
+    void activate(GLuint program, GLint texLoc);
     void finalise();
+
+    std::vector<GLfloat> generateTexCoords(std::pair<int, int> top,
+            std::pair<int, int> forward, std::pair<int, int> left,
+            std::pair<int, int> backward, std::pair<int, int> right,
+            std::pair<int, int> bottom);
 
     void setCellDims(int w, int h);
 };
