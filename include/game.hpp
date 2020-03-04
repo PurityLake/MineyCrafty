@@ -12,8 +12,6 @@
 #endif
 
 #include <chunk.hpp>
-#include <cube.hpp>
-#include <util.hpp>
 
 namespace MineyCrafty {
 
@@ -23,7 +21,6 @@ private:
     static constexpr int SCREEN_HEIGHT = 480;
     SDL_Window *window;
     SDL_GLContext context;
-    //Cube prim;
     Chunk chunk;
 
 public:

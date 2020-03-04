@@ -52,7 +52,6 @@ void Game::init() {
                     glDepthFunc(GL_LESS);
                     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
                     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    //prim.init();
                     chunk.init();
                     chunk.addCube(0, 0, 0);
                     chunk.addCube(1, 0, 0);
