@@ -52,7 +52,8 @@ void Game::init() {
                     glDepthFunc(GL_LESS);
                     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
                     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    prim.init();
+                    //prim.init();
+                    chunk.init();
                 }
             }
         }
@@ -67,7 +68,8 @@ void Game::render() {
         (float)M_PI / 100.0f,
         glm::vec3(0.0f, 1.0f, 0.0f)
     );
-    prim.draw(trans);
+    chunk.draw(trans);
+    //prim.draw(trans);
     SDL_GL_SwapWindow(window);
 }
 
@@ -78,5 +80,6 @@ void Game::finalise() {
         SDL_DestroyWindow(window);
         window = nullptr;        
     }
-    prim.finalise();
+    //prim.finalise();
+    chunk.finalise();
 }

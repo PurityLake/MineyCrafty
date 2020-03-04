@@ -11,6 +11,7 @@ set(SOURCES
     src/cube.cpp
     src/shader.cpp
     src/texture_atlas.cpp
+    src/chunk.cpp
     src/main.cpp)
 
 if(WIN32)

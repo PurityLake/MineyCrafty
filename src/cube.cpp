@@ -2,14 +2,15 @@
 
 #include <iostream>
 
+#include <cube.hpp>
 #include <util.hpp>
 
 using namespace std;
 using namespace MineyCrafty;
 
-Cube::Cube() {
+Cube::Cube() : Cube(0, 0, 0) { }
 
-}
+Cube::Cube(int x, int y, int z) : x(x), y(y), z(z) { }
 
 Cube::~Cube() {
 
@@ -21,6 +22,13 @@ void Cube::init() {
         util::joinPath({"resources", "frag.glsl"}));
     shader.init();
     atlas.init();
+    vector<GLfloat> vertices;
+    vertices.reserve(sizeof(cubeVertices) / sizeof(GLfloat));
+    for (int i = 0; i < sizeof(cubeVertices) / sizeof(GLfloat); i += 3) {
+        vertices.push_back(cubeVertices[i] + x * 2);
+        vertices.push_back(cubeVertices[i+1] + y * 2);
+        vertices.push_back(cubeVertices[i+2] + z * 2);
+    }
     vector<GLfloat> coords = atlas.generateTexCoords(
         pair{0, 0}, pair{1, 0}, pair{1, 0}, pair{1, 0}, pair{1, 0}, pair{2, 0}
     );
@@ -29,14 +37,14 @@ void Cube::init() {
     glGenBuffers(1, &texcoord);
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), &vertices[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, texcoord);
     glBufferData(GL_ARRAY_BUFFER, coords.size() * sizeof(GLfloat), &coords[0], GL_STATIC_DRAW);
 }
 
 void Cube::draw(glm::mat4& trans) {
     glm::mat4 view = glm::lookAt(
-        glm::vec3(3.0f, 3.0f, 3.0f),
+        glm::vec3(10.0f, 10.0f, 10.0f),
         glm::vec3(0.0f, 0.0f, 0.0f),
         glm::vec3(0.0f, 1.0f, 0.0f)
     );
