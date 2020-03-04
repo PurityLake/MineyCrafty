@@ -2,6 +2,7 @@
 
 #include <util.hpp>
 
+#include <algorithm>
 #include <iostream>
 
 using namespace std;
