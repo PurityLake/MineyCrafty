@@ -40,14 +40,14 @@ if(WIN32)
         file(COPY "${SDL_PATH}\\lib\\x64\\*.dll" 
             DESTINATION "."
             FILES_MATCHING
-                PATTERN "SDL*.dll")
+                PATTERN "*.dll")
         file(COPY "${GLEW_PATH}\\bin\\x64\\glew32.dll" DESTINATION ".")
     else()
         link_directories("${SDL2_PATH}\\lib\\x86;${GLEW_PATH}\\lib\\x86")
         file(COPY "${SDL_PATH}\\lib\\x86\\" 
         DESTINATION "."
         FILES_MATCHING
-            PATTERN "SDL*.dll")
+            PATTERN "*.dll")
         file(COPY "${GLEW_PATH}\\bin\\x86\\glew32.dll" DESTINATION ".")
     endif()
     
