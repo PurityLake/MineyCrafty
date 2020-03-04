@@ -70,72 +70,69 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
 
     if (const auto& [x, y] = forward; x >= 0 && y >= 0) {
         coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
+        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
         
         coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
+        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+
+        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
         coords.push_back((GLfloat)(y * cellHeight) / height);
 
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
+        coords.push_back((GLfloat)(x * cellWidth) / width);
         coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
 
         coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+        coords.push_back((GLfloat)(y * cellHeight) / height);
 
         coords.push_back((GLfloat)(x * cellWidth) / width);
         coords.push_back((GLfloat)(y * cellHeight) / height);
-        
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
     }
 
     if (const auto& [x, y] = left; x >= 0 && y >= 0) {
+        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
+        coords.push_back((GLfloat)(y * cellHeight) / height);
+
+        coords.push_back((GLfloat)(x * cellWidth) / width);
+        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+
         coords.push_back((GLfloat)(x * cellWidth) / width);
         coords.push_back((GLfloat)(y * cellHeight) / height);
-        
+
         coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
         coords.push_back((GLfloat)(y * cellHeight) / height);
 
         coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
         coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
 
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
-
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
-        
         coords.push_back((GLfloat)(x * cellWidth) / width);
         coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
     }
 
     if (const auto& [x, y] = backward; x >= 0 && y >= 0) {
+        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
+        coords.push_back((GLfloat)(y * cellHeight) / height);
+
         coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
-        
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
-
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
-        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
-
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
         coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
 
         coords.push_back((GLfloat)(x * cellWidth) / width);
         coords.push_back((GLfloat)(y * cellHeight) / height);
-        
+
         coords.push_back((GLfloat)(x * cellWidth) / width);
+        coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
+
+        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
+        coords.push_back((GLfloat)(y * cellHeight) / height);
+
+        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
         coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
     }
 
     if (const auto& [x, y] = right; x >= 0 && y >= 0) {
-        coords.push_back((GLfloat)(x * cellWidth) / width);
-        coords.push_back((GLfloat)(y * cellHeight) / height);
-        
         coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
         coords.push_back((GLfloat)(y * cellHeight) / height);
 
-        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
+        coords.push_back((GLfloat)(x * cellWidth) / width);
         coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
 
         coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
@@ -143,8 +140,11 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
 
         coords.push_back((GLfloat)(x * cellWidth) / width);
         coords.push_back((GLfloat)(y * cellHeight) / height);
-        
-        coords.push_back((GLfloat)(x * cellWidth) / width);
+
+        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
+        coords.push_back((GLfloat)(y * cellHeight) / height);
+
+        coords.push_back((GLfloat)((x * cellWidth) + cellWidth) / width);
         coords.push_back((GLfloat)((y * cellHeight) + cellHeight) / height);
     }
 
