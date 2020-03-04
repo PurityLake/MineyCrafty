@@ -51,10 +51,10 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
     GLfloat pixel = 1.0f / width;
     coords.reserve(36 * 2);
     if (const auto& [_x, _y] = top; _x >= 0 && _y >= 0) {
-        GLfloat xleft = (GLfloat)(_x * cellWidth)  / width;
-        GLfloat ytop = (GLfloat)(_y * cellHeight) / height;
-        GLfloat xright = ((GLfloat)(_x * cellWidth) + cellWidth) / width - pixel; 
-        GLfloat ybottom = (GLfloat)((_y * cellHeight) + cellHeight) / height - pixel; 
+        GLfloat xleft = (GLfloat)(_x * cellWidth + 1.0f) / width;
+        GLfloat ytop = (GLfloat)(_y * cellHeight + 1.0f) / height;
+        GLfloat xright = ((GLfloat)(_x * cellWidth - 1.0f) + cellWidth) / width; 
+        GLfloat ybottom = (GLfloat)((_y * cellHeight - 1.0f) + cellHeight) / height; 
 
         coords.push_back(xleft);
         coords.push_back(ytop);
@@ -76,10 +76,10 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
     }
 
     if (const auto& [_x, _y] = forward; _x >= 0 && _y >= 0) {
-        GLfloat xleft = (GLfloat)(_x * cellWidth)  / width;
-        GLfloat ytop = (GLfloat)(_y * cellHeight) / height;
-        GLfloat xright = ((GLfloat)(_x * cellWidth) + cellWidth) / width - pixel; 
-        GLfloat ybottom = (GLfloat)((_y * cellHeight) + cellHeight) / height - pixel; 
+        GLfloat xleft = (GLfloat)(_x * cellWidth + 1.0f) / width;
+        GLfloat ytop = (GLfloat)(_y * cellHeight + 1.0f) / height;
+        GLfloat xright = ((GLfloat)(_x * cellWidth - 1.0f) + cellWidth) / width; 
+        GLfloat ybottom = (GLfloat)((_y * cellHeight - 1.0f) + cellHeight) / height; 
 
         coords.push_back(xleft);
         coords.push_back(ybottom);
@@ -101,10 +101,10 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
     }
 
     if (const auto& [_x, _y] = left; _x >= 0 && _y >= 0) {
-        GLfloat xleft = (GLfloat)(_x * cellWidth)  / width;
-        GLfloat ytop = (GLfloat)(_y * cellHeight) / height;
-        GLfloat xright = ((GLfloat)(_x * cellWidth) + cellWidth) / width - pixel; 
-        GLfloat ybottom = (GLfloat)((_y * cellHeight) + cellHeight) / height - pixel; 
+        GLfloat xleft = (GLfloat)(_x * cellWidth + 1.0f) / width;
+        GLfloat ytop = (GLfloat)(_y * cellHeight + 1.0f) / height;
+        GLfloat xright = ((GLfloat)(_x * cellWidth - 1.0f) + cellWidth) / width; 
+        GLfloat ybottom = (GLfloat)((_y * cellHeight - 1.0f) + cellHeight) / height; 
 
         coords.push_back(xright);
         coords.push_back(ytop);
@@ -126,10 +126,10 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
     }
 
     if (const auto& [_x, _y] = backward; _x >= 0 && _y >= 0) {
-        GLfloat xleft = (GLfloat)(_x * cellWidth)  / width;
-        GLfloat ytop = (GLfloat)(_y * cellHeight) / height;
-        GLfloat xright = ((GLfloat)(_x * cellWidth) + cellWidth) / width - pixel; 
-        GLfloat ybottom = (GLfloat)((_y * cellHeight) + cellHeight) / height - pixel; 
+        GLfloat xleft = (GLfloat)(_x * cellWidth + 1.0f) / width;
+        GLfloat ytop = (GLfloat)(_y * cellHeight + 1.0f) / height;
+        GLfloat xright = ((GLfloat)(_x * cellWidth - 1.0f) + cellWidth) / width; 
+        GLfloat ybottom = (GLfloat)((_y * cellHeight - 1.0f) + cellHeight) / height; 
         
         coords.push_back(xright);
         coords.push_back(ytop);
@@ -151,10 +151,10 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
     }
 
     if (const auto& [_x, _y] = right; _x >= 0 && _y >= 0) {
-        GLfloat xleft = (GLfloat)(_x * cellWidth)  / width;
-        GLfloat ytop = (GLfloat)(_y * cellHeight) / height;
-        GLfloat xright = ((GLfloat)(_x * cellWidth) + cellWidth) / width - pixel; 
-        GLfloat ybottom = (GLfloat)((_y * cellHeight) + cellHeight) / height - pixel; 
+        GLfloat xleft = (GLfloat)(_x * cellWidth + 1.0f) / width;
+        GLfloat ytop = (GLfloat)(_y * cellHeight + 1.0f) / height;
+        GLfloat xright = ((GLfloat)(_x * cellWidth - 1.0f) + cellWidth) / width; 
+        GLfloat ybottom = (GLfloat)((_y * cellHeight - 1.0f) + cellHeight) / height;
 
         coords.push_back(xright);
         coords.push_back(ytop);
@@ -176,10 +176,10 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
     }
 
     if (const auto& [_x, _y] = bottom; _x >= 0 && _y >= 0) {
-        GLfloat xleft = (GLfloat)(_x * cellWidth)  / width;
-        GLfloat ytop = (GLfloat)(_y * cellHeight) / height;
-        GLfloat xright = ((GLfloat)(_x * cellWidth) + cellWidth) / width - pixel; 
-        GLfloat ybottom = (GLfloat)((_y * cellHeight) + cellHeight) / height - pixel; 
+        GLfloat xleft = (GLfloat)(_x * cellWidth + 1.0f) / width;
+        GLfloat ytop = (GLfloat)(_y * cellHeight + 1.0f) / height;
+        GLfloat xright = ((GLfloat)(_x * cellWidth - 1.0f) + cellWidth) / width; 
+        GLfloat ybottom = (GLfloat)((_y * cellHeight - 1.0f) + cellHeight) / height; 
 
         coords.push_back(xleft);
         coords.push_back(ytop);
