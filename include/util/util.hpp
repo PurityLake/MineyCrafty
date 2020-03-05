@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 
+#include <util/noise.hpp>
 #include <util/timer.hpp>
 
 namespace MineyCrafty {

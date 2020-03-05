@@ -13,6 +13,7 @@ set(SOURCES
     src/texture_atlas.cpp
     src/chunk.cpp
     src/timer.cpp
+    src/noise.cpp
     src/main.cpp)
 
 if(WIN32)
@@ -54,7 +55,6 @@ if(WIN32)
     endif()
     
     add_executable(MineyCrafty ${SOURCES})
-    message("${SDL2_LIBRARY}")
     target_link_libraries(MineyCrafty ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} 
         ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARY} 
         ${SDL2_MIXER_LIBRARY})

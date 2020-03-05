@@ -24,7 +24,7 @@ namespace MineyCrafty {
 
 class Chunk {
 private:
-    static constexpr int l = 5, w = 5, h = 5;
+    static constexpr int l = 20, w = 20, h = 20;
     int num_verts;
     Shader shader;
     TextureAtlas atlas;

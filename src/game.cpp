@@ -2,6 +2,7 @@
 
 #include <SDL_image.h>
 
+#include <ctime>
 #include <iostream>
 
 #define GLM_FORCE_RADIANS
@@ -53,13 +54,17 @@ void Game::init() {
                     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
                     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                     chunk.init();
-                    chunk.addCube(0, 0, 0);
-                    chunk.addCube(1, 0, 0);
-                    chunk.addCube(0, 1, 0);
-                    chunk.addCube(0, 0, 1);
-                    chunk.addCube(0, 1, 1);
-                    chunk.addCube(3, 0, 0);
-                    chunk.addCube(0, 2, 0);
+                    int width = 10;
+                    int height = 10;
+                    util::NoiseVector v(width, height);
+                    for (int z = 0; z < height; ++z) {
+                        for (int x = 0; x < width; ++x) {
+                            int height = floor(v.getAt(x, z) * 20);
+                            for (int h = 0; h < height; ++h) {
+                                chunk.addCube(x, h, z);
+                            }
+                        }
+                    }
                     chunk.update();
                 }
             }
@@ -73,9 +78,9 @@ void Game::render() {
     static glm::mat4 trans = glm::mat4(1.0f);
     trans = glm::rotate(
         trans,
-        (deltaTime < 1.0 
+        deltaTime < 1.0f 
             ? (float)M_PI / 4.0f * (float)deltaTime
-            : (float)M_PI / 4.0f / (float)deltaTime),
+            : (float)M_PI / 4.0f / (float)deltaTime,
         glm::vec3(0.0f, 1.0f, 0.0f)
     );
     chunk.draw(trans);

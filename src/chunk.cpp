@@ -61,7 +61,7 @@ void Chunk::update() {
 
 void Chunk::draw(glm::mat4& trans) {
     glm::mat4 view = glm::lookAt(
-        glm::vec3(20.0f, 20.0f, 20.0f),
+        glm::vec3(40.0f, 40.0f, 40.0f),
         glm::vec3(0.0f, 0.0f, 0.0f),
         glm::vec3(0.0f, 1.0f, 0.0f)
     );
