@@ -12,7 +12,7 @@
 #endif
 
 #include <chunk.hpp>
-#include <util/util.hpp>
+#include <timer.hpp>
 
 namespace MineyCrafty {
 

@@ -1,6 +1,6 @@
 #include <texture_atlas.hpp>
 
-#include <util/util.hpp>
+#include <util.hpp>
 
 #include <algorithm>
 #include <iostream>

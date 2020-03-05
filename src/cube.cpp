@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include <cube.hpp>
-#include <util/util.hpp>
+#include <util.hpp>
 
 using namespace std;
 using namespace MineyCrafty;

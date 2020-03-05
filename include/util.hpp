@@ -5,8 +5,6 @@
 #include <string>
 #include <sstream>
 
-#include <util/timer.hpp>
-
 namespace MineyCrafty {
 namespace util {
 

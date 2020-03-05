@@ -78,6 +78,7 @@ void Game::render() {
         glm::vec3(0.0f, 1.0f, 0.0f)
     );
     chunk.draw(trans);
+    //prim.draw(trans);
     SDL_GL_SwapWindow(window);
     deltaTime = timer.deltaTime();
     ++countedFrames;
@@ -90,5 +91,6 @@ void Game::finalise() {
         SDL_DestroyWindow(window);
         window = nullptr;        
     }
+    //prim.finalise();
     chunk.finalise();
 }
