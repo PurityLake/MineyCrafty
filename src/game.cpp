@@ -78,9 +78,7 @@ void Game::render() {
     static glm::mat4 trans = glm::mat4(1.0f);
     trans = glm::rotate(
         trans,
-        deltaTime < 1.0f 
-            ? (float)M_PI / 4.0f * (float)deltaTime
-            : (float)M_PI / 4.0f / (float)deltaTime,
+        ((float)M_PI / 4.0f) * (float)deltaTime,
         glm::vec3(0.0f, 1.0f, 0.0f)
     );
     chunk.draw(trans);

@@ -8,11 +8,11 @@ Timer::Timer() { }
 Timer::~Timer() { }
 
 void Timer::start() {
-    now  = SDL_GetPerformanceCounter();
-    last = SDL_GetPerformanceCounter();
+    now  = SDL_GetTicks();
+    last = SDL_GetTicks();
 }
 
-double Timer::deltaTime() {
-    now = SDL_GetPerformanceCounter();
-    return (double)((now - last) * 1000 / (double)SDL_GetPerformanceFrequency());
+float Timer::deltaTime() {
+    now = SDL_GetTicks();
+    return (float)(now - last) / 1000.0;
 }

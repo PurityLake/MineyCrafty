@@ -17,7 +17,7 @@ public:
     virtual ~Timer();
     
     void start();
-    double deltaTime(); 
+    float deltaTime(); 
 };
 
 } // namespace util
