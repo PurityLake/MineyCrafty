@@ -69,19 +69,35 @@ void Game::init() {
 
 void Game::render() {
     timer.start();
-    float avgFPS = countedFrames / (SDL_GetTicks() / 1000.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     static glm::mat4 trans = glm::mat4(1.0f);
     trans = glm::rotate(
         trans,
-        (float)M_PI / 4.0f * (1 / avgFPS),
+        (deltaTime < 1.0 
+            ? (float)M_PI / 4.0f * (float)deltaTime
+            : (float)M_PI / 4.0f / (float)deltaTime),
         glm::vec3(0.0f, 1.0f, 0.0f)
     );
     chunk.draw(trans);
-    //prim.draw(trans);
     SDL_GL_SwapWindow(window);
     deltaTime = timer.deltaTime();
-    ++countedFrames;
+}
+
+void Game::loop() {
+    bool quit = false;
+    SDL_Event e;
+    while (!quit) {
+        timer.start();
+        while (SDL_PollEvent(&e)) {
+            switch (e.type) {
+                case SDL_QUIT:
+                    quit = true;
+                    break;
+            }
+        }
+        render();
+        deltaTime = timer.deltaTime();
+    }
 }
 
 void Game::finalise() {

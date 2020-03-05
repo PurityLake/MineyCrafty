@@ -17,22 +17,7 @@ int main(int argc, char **args) {
 #endif
     mc::Game game;
     game.init();
-
-    //SDL_StartTextInput();
-    bool quit = false;
-    SDL_Event e;
-    while (!quit) {
-        while (SDL_PollEvent(&e)) {
-            switch (e.type) {
-                case SDL_QUIT:
-                    quit = true;
-                    break;
-            }
-        }
-        game.render();
-    }
-    
+    game.loop();
     game.finalise();
-    //SDL_StopTextInput();
     return 0;
 }
