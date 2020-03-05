@@ -12,6 +12,7 @@
 #endif
 
 #include <chunk.hpp>
+#include <timer.hpp>
 
 namespace MineyCrafty {
 
@@ -19,6 +20,8 @@ class Game {
 private:
     static constexpr int SCREEN_WIDTH = 640;
     static constexpr int SCREEN_HEIGHT = 480;
+    double deltaTime = 1.0;
+    util::Timer timer; 
     SDL_Window *window;
     SDL_GLContext context;
     Chunk chunk;

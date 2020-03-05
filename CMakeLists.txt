@@ -12,6 +12,7 @@ set(SOURCES
     src/shader.cpp
     src/texture_atlas.cpp
     src/chunk.cpp
+    src/timer.cpp
     src/main.cpp)
 
 if(WIN32)
