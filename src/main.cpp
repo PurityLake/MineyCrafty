@@ -5,7 +5,7 @@
 #endif
 
 #include <game.hpp>
-#include <util.hpp>
+#include <util/util.hpp>
 
 using namespace std;
 namespace mc = MineyCrafty;

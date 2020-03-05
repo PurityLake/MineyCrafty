@@ -1,6 +1,6 @@
 #include <chunk.hpp>
 
-#include <util.hpp>
+#include <util/util.hpp>
 
 using namespace std;
 using namespace MineyCrafty;

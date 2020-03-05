@@ -1,4 +1,4 @@
-#include <timer.hpp>
+#include <util/timer.hpp>
 
 using namespace std;
 using namespace MineyCrafty;

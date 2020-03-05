@@ -2,8 +2,10 @@
 #define __HPP_UTIL__
 
 #include <iostream>
-#include <string>
 #include <sstream>
+#include <string>
+
+#include <util/timer.hpp>
 
 namespace MineyCrafty {
 namespace util {
