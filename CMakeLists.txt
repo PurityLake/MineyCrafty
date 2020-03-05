@@ -28,6 +28,8 @@ if(WIN32)
     find_package(SDL2_image REQUIRED)
     find_package(SDL2_ttf REQUIRED)
     find_package(SDL2_mixer REQUIRED)
+    find_package(SDL2_gfx REQUIRED)
+    find_package(SDL2_net REQUIRED)
 
     include_directories(${CMAKE_SOURCE_DIR}/include ${GLEW_INCLUDE_DIRS}
         ${SDL2_INCLUDE_DIRS})

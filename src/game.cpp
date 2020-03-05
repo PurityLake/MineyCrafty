@@ -76,11 +76,12 @@ void Game::render() {
     timer.start();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     static glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::rotate(
-        trans,
-        ((float)M_PI / 4.0f) * (float)deltaTime,
-        glm::vec3(0.0f, 1.0f, 0.0f)
-    );
+    trans = glm::translate(
+        glm::rotate(
+            glm::translate(trans, glm::vec3(10, 10, 10)),
+                ((float)M_PI / 4.0f) * (float)deltaTime,
+                glm::vec3(0.0f, 1.0f, 0.0f)
+        ), glm::vec3(-10, -10, -10));
     chunk.draw(trans);
     SDL_GL_SwapWindow(window);
     deltaTime = timer.deltaTime();
