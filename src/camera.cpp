@@ -13,43 +13,66 @@ Camera::Camera(glm::vec3 pos, glm::vec3 up, glm::vec3 lookAt,
                 int screenWidth, int screenHeight)
     : pos(pos), up(up), lookAt(lookAt), screenWidth(screenWidth),
       screenHeight(screenHeight), inputManager(util::InputManager::getInputManager()),
-      timer(util::Timer::getTimer())
+      timer(util::Timer::getTimer()), mouse(util::Mouse::getMouse())
 {
-    view = glm::lookAt(pos, lookAt, up);
+    float radiansYaw = glm::radians(yaw);
+    float radiansPitch = glm::radians(pitch);
+    lookAt = glm::vec3(
+        cos(radiansYaw) * cos(radiansPitch),
+        sin(radiansPitch),
+        sin(radiansYaw) * cos(radiansPitch)
+    );
+    view = glm::lookAt(pos, pos + lookAt, up);
     proj = glm::perspective(45.0f, (float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
 }
 
 Camera::~Camera() { }
 
-void Camera::update() {
+void Camera::update(int relx, int rely) {
+    float deltaTime = timer->deltaTime();
     if (main == nullptr) {
         main = this->shared_from_this();
     }
     bool updated = false;
-    if (inputManager->isKeyDown(SDL_SCANCODE_W)) {
-        glm::vec3 fromPosToLook = lookAt - pos;
-        pos += fromPosToLook * 0.5f * timer->deltaTime();
+    if (relx != 0.0f && rely != 0.0f) {
+        yaw += relx * sensitivity * deltaTime;
+        pitch += rely * sensitivity * deltaTime;
+
+        if (pitch > 89.0f)
+            pitch = 89.0f;
+        if (pitch < -89.0f)
+            pitch = -89.0f;
+
+        float radiansYaw = glm::radians(yaw);
+        float radiansPitch = glm::radians(pitch);
+        lookAt = glm::normalize(glm::vec3(
+            cos(radiansYaw) * cos(radiansPitch),
+            sin(radiansPitch),
+            sin(radiansYaw) * cos(radiansPitch)
+        ));
         updated = true;
-    } else if (inputManager->isKeyDown(SDL_SCANCODE_S)) {
-        glm::vec3 fromPosToLook = lookAt - pos;
-        pos -= fromPosToLook * 0.5f * timer->deltaTime();
-        updated = true;
-    }
-    if (inputManager->isKeyDown(SDL_SCANCODE_D)) {
-        glm::vec3 left = glm::cross(lookAt - pos, up);
-        glm::vec3 rightLookAt = glm::cross(pos - lookAt, up);
-        pos += left * 0.5f * timer->deltaTime();
-        lookAt -= rightLookAt * 0.5f * timer->deltaTime();
-        updated = true;
-    } else if (inputManager->isKeyDown(SDL_SCANCODE_A)) {
-        glm::vec3 left = glm::cross(lookAt - pos, up);
-        glm::vec3 rightLookAt = glm::cross(pos - lookAt, up);
-        pos -= left * 0.5f * timer->deltaTime();
-        lookAt += rightLookAt * 0.5f * timer->deltaTime();
-        updated = true;
+    } else {
+        if (inputManager->isKeyDown(SDL_SCANCODE_W)) {
+            pos += lookAt * 10.0f * deltaTime;
+            updated = true;
+        } else if (inputManager->isKeyDown(SDL_SCANCODE_S)) {
+            pos -= lookAt * 10.0f * deltaTime;
+            updated = true;
+        }
+        if (inputManager->isKeyDown(SDL_SCANCODE_D)) {
+            glm::vec3 rightLookAt = glm::normalize(glm::cross(pos - lookAt, up));
+            pos += rightLookAt * 0.5f * deltaTime;
+            //lookAt = rightLookAt * 0.5f * deltaTime;
+            updated = true;
+        } else if (inputManager->isKeyDown(SDL_SCANCODE_A)) {
+            glm::vec3 rightLookAt = glm::normalize(glm::cross(pos - lookAt, up));
+            pos -= rightLookAt * 0.5f * deltaTime;
+            //lookAt = rightLookAt * -0.5f * deltaTime();
+            updated = true;
+        }
     }
     if (updated) {
-        view = glm::lookAt(pos, lookAt, up);
+        view = glm::lookAt(pos, pos + lookAt, up);
     }
 }
 

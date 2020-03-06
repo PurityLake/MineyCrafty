@@ -48,6 +48,7 @@ void Game::init() {
                     if (SDL_GL_SetSwapInterval(1) < 0) {
                         cerr << "Warning: Unable to set VSync! SDL Error: %s\n" << SDL_GetError() << endl;
                     }
+                    SDL_SetRelativeMouseMode(SDL_TRUE);
                     glEnable(GL_DEPTH_TEST);
                     glEnable(GL_TEXTURE_2D);
                     glEnable(GL_POLYGON_SMOOTH);
@@ -64,7 +65,7 @@ void Game::init() {
                                  glm::vec3(0.0f, 1.0f, 0.0f),
                                  glm::vec3(0.0f, 0.0f, 0.0f),
                                  SCREEN_WIDTH, SCREEN_HEIGHT);
-                    cam->update();
+                    cam->update(0.0f, 0.0f);
                     chunk.init();
                     int width = 10;
                     int height = 10;
@@ -88,19 +89,13 @@ void Game::render() {
     timer->start();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     static glm::mat4 trans = glm::mat4(1.0f);
-    //trans = glm::translate(
-    //    glm::rotate(
-    //        glm::translate(trans, glm::vec3(10, 10, 10)),
-    //            ((float)M_PI / 4.0f) * (float)deltaTime,
-    //            glm::vec3(0.0f, 1.0f, 0.0f)
-    //    ), glm::vec3(-10, -10, -10));
     chunk.draw(trans);
     SDL_GL_SwapWindow(window);
     deltaTime = timer->deltaTime();
 }
 
 void Game::update() {
-    cam->update();
+    cam->update(0.0f, 0.0f);
     mouse->update();
 }
 
@@ -113,7 +108,13 @@ void Game::loop() {
                 case SDL_QUIT:
                     quit = true;
                     break;
+                case SDL_MOUSEMOTION:
+                    cam->update(e.motion.xrel, e.motion.yrel);
+                    break;
             }
+        }
+        if (inputManager->isKeyDown(SDL_SCANCODE_Q)) {
+            break;
         }
         render();
         update();

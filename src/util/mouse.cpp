@@ -1,5 +1,7 @@
 #include <util/mouse.hpp>
 
+#include <iostream>
+
 using namespace std;
 using namespace MineyCrafty;
 using namespace util;
@@ -19,6 +21,10 @@ void Mouse::update() {
     if (!mouse) {
         mouse = shared_from_this();
     }
+}
+
+shared_ptr<Mouse> Mouse::getMouse() {
+    return mouse;
 }
 
 std::pair<int, int> Mouse::getPos() {

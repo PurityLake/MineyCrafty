@@ -18,6 +18,10 @@ private:
     glm::mat4 view, proj;
     glm::vec3 pos, up, lookAt;
     int screenWidth, screenHeight;
+    float sensitivity = 2.0f;
+    float yaw = 230.0f, pitch = 0.0f;
+    
+    std::shared_ptr<util::Mouse> mouse;
     std::shared_ptr<util::InputManager> inputManager;
     std::shared_ptr<util::Timer> timer;
 
@@ -28,7 +32,7 @@ public:
     Camera(glm::vec3 pos, glm::vec3 up, glm::vec3 lookAt, int screenWidth, int screenHeight);
     virtual ~Camera();
 
-    void update();
+    void update(int relX, int relY);
 
     glm::mat4 getView();
     glm::mat4 getProj();

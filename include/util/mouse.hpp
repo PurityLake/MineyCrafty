@@ -18,6 +18,8 @@ public:
     Mouse();
     virtual ~Mouse();
 
+    static std::shared_ptr<Mouse> getMouse();
+
     void update();
 
     std::pair<int, int> getPos();
