@@ -15,6 +15,7 @@ using namespace MineyCrafty;
 Game::Game() {
 
 }
+
 Game::~Game() {
 
 }
@@ -53,6 +54,11 @@ void Game::init() {
                     glDepthFunc(GL_LESS);
                     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
                     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    cam = make_shared<Camera>(glm::vec3(40.0f, 40.0f, 40.0f),
+                                 glm::vec3(0.0f, 1.0f, 0.0f),
+                                 glm::vec3(0.0f, 0.0f, 0.0f),
+                                 SCREEN_WIDTH, SCREEN_HEIGHT);
+                    cam->update();
                     chunk.init();
                     int width = 10;
                     int height = 10;
@@ -91,7 +97,6 @@ void Game::loop() {
     bool quit = false;
     SDL_Event e;
     while (!quit) {
-        timer.start();
         while (SDL_PollEvent(&e)) {
             switch (e.type) {
                 case SDL_QUIT:
@@ -100,7 +105,6 @@ void Game::loop() {
             }
         }
         render();
-        deltaTime = timer.deltaTime();
     }
 }
 

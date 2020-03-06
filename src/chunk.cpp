@@ -1,5 +1,6 @@
 #include <chunk.hpp>
 
+#include <camera.hpp>
 #include <util/util.hpp>
 
 using namespace std;
@@ -60,13 +61,8 @@ void Chunk::update() {
 }
 
 void Chunk::draw(glm::mat4& trans) {
-    glm::mat4 view = glm::lookAt(
-        glm::vec3(40.0f, 40.0f, 40.0f),
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        glm::vec3(0.0f, 1.0f, 0.0f)
-    );
-    glm::mat4 proj = glm::perspective(45.0f, 640.0f / 480.0f, 0.1f, 100.0f);
-    shader.activate(trans, view, proj);
+    auto cam = Camera::getMainCamera();
+    shader.activate(trans, cam->getView(), cam->getProj());
     glBindVertexArray(vao);
     atlas.activate(shader.getProgram(), glGetUniformLocation(shader.getProgram(), "tex"));
     glBindBuffer(GL_ARRAY_BUFFER, vbo);

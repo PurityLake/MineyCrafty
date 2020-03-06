@@ -1,6 +1,8 @@
 #ifndef __HPP_GAME__
 #define __HPP_GAME__
 
+#include <memory>
+
 #include <SDL.h>
 #include <GL/glew.h>
 #include <SDL_opengl.h>
@@ -11,6 +13,7 @@
 # include <OpenGL/glu.h>
 #endif
 
+#include <camera.hpp>
 #include <chunk.hpp>
 #include <util/util.hpp>
 
@@ -20,6 +23,7 @@ class Game {
 private:
     static constexpr int SCREEN_WIDTH = 640;
     static constexpr int SCREEN_HEIGHT = 480;
+    std::shared_ptr<Camera> cam;
     double deltaTime = 1.0;
     util::Timer timer; 
     SDL_Window *window;

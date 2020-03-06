@@ -14,6 +14,7 @@ set(SOURCES
     src/chunk.cpp
     src/timer.cpp
     src/noise.cpp
+    src/camera.cpp
     src/main.cpp)
 
 if(WIN32)
