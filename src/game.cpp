@@ -54,6 +54,8 @@ void Game::init() {
                     glDepthFunc(GL_LESS);
                     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
                     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    mouse = make_shared<util::Mouse>();
+                    mouse->update();
                     inputManager = make_shared<util::InputManager>();
                     inputManager->init();
                     timer = make_shared<util::Timer>();
@@ -99,6 +101,7 @@ void Game::render() {
 
 void Game::update() {
     cam->update();
+    mouse->update();
 }
 
 void Game::loop() {

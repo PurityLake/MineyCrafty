@@ -5,9 +5,10 @@
 #include <sstream>
 #include <string>
 
+#include <util/input_manager.hpp>
+#include <util/mouse.hpp>
 #include <util/noise.hpp>
 #include <util/timer.hpp>
-#include <util/input_manager.hpp>
 
 namespace MineyCrafty {
 namespace util {
@@ -29,7 +30,7 @@ inline std::string joinPath(std::initializer_list<std::string> paths) {
         ++i;
     }
     return ss.str();
-}
+};
 
 } // namesapce util
 } // namespace MineyCrafty

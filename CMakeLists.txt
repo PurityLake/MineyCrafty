@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SOURCES
     src/util/input_manager.cpp
+    src/util/mouse.cpp
     src/util/noise.cpp
     src/util/timer.cpp
     src/camera.cpp

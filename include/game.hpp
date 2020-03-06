@@ -25,6 +25,7 @@ private:
     static constexpr int SCREEN_HEIGHT = 480;
     std::shared_ptr<Camera> cam;
     double deltaTime = 1.0;
+    std::shared_ptr<util::Mouse> mouse;
     std::shared_ptr<util::InputManager> inputManager;
     std::shared_ptr<util::Timer> timer; 
     SDL_Window *window;
