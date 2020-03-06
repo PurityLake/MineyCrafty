@@ -5,22 +5,6 @@
 using namespace std;
 using namespace MineyCrafty;
 
-/*
-glm::mat4 view, proj;
-    glm::vec3 pos, up;
-
-public:
-    Camera();
-    Camera(glm::vec3 pos, glm::vec3 up, glm::vec3 lookAt);
-    virtual ~Camera();
-
-    void update();
-
-    glm::mat4 getView();
-    glm::mat4 getProj();
-    static std::unique_ptr<Camera> getMainCamera();
-*/
-
 Camera::Camera()
     : Camera(glm::vec3(40.0f, 40.0f, 40.0f), glm::vec3(0.0f, 1.0f, 0.0f),
             glm::vec3(0.0f, 0.0f, 0.0f), 640, 480) { }
@@ -28,7 +12,7 @@ Camera::Camera()
 Camera::Camera(glm::vec3 pos, glm::vec3 up, glm::vec3 lookAt,
                 int screenWidth, int screenHeight)
     : pos(pos), up(up), lookAt(lookAt), screenWidth(screenWidth),
-      screenHeight(screenHeight) { }
+      screenHeight(screenHeight), inputManager(util::InputManager::getInputManager()) { }
 
 Camera::~Camera() { }
 

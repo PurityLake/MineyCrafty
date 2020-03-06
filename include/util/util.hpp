@@ -7,6 +7,7 @@
 
 #include <util/noise.hpp>
 #include <util/timer.hpp>
+#include <util/input_manager.hpp>
 
 namespace MineyCrafty {
 namespace util {

@@ -54,6 +54,7 @@ void Game::init() {
                     glDepthFunc(GL_LESS);
                     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
                     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    inputManager = make_shared<util::InputManager>();
                     cam = make_shared<Camera>(glm::vec3(40.0f, 40.0f, 40.0f),
                                  glm::vec3(0.0f, 1.0f, 0.0f),
                                  glm::vec3(0.0f, 0.0f, 0.0f),
@@ -93,6 +94,10 @@ void Game::render() {
     deltaTime = timer.deltaTime();
 }
 
+void Game::update() {
+    cam->update();
+}
+
 void Game::loop() {
     bool quit = false;
     SDL_Event e;
@@ -105,6 +110,7 @@ void Game::loop() {
             }
         }
         render();
+        update();
     }
 }
 
@@ -115,6 +121,5 @@ void Game::finalise() {
         SDL_DestroyWindow(window);
         window = nullptr;        
     }
-    //prim.finalise();
     chunk.finalise();
 }

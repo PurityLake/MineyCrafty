@@ -25,6 +25,7 @@ private:
     static constexpr int SCREEN_HEIGHT = 480;
     std::shared_ptr<Camera> cam;
     double deltaTime = 1.0;
+    std::shared_ptr<util::InputManager> inputManager;
     util::Timer timer; 
     SDL_Window *window;
     SDL_GLContext context;
@@ -36,6 +37,7 @@ public:
 
     void init();
     void render();
+    void update();
     void loop();
     void finalise();
 };

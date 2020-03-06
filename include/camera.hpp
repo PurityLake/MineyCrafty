@@ -9,6 +9,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <util/util.hpp>
+
 namespace MineyCrafty {
 
 class Camera : public std::enable_shared_from_this<Camera> {
@@ -16,6 +18,7 @@ private:
     glm::mat4 view, proj;
     glm::vec3 pos, up, lookAt;
     int screenWidth, screenHeight;
+    std::shared_ptr<util::InputManager> inputManager;
 
     static inline std::shared_ptr<Camera> main = nullptr;
 
