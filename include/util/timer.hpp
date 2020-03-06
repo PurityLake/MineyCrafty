@@ -2,15 +2,17 @@
 #define __HPP_TIMER__
 
 #include <iostream>
+#include <memory>
 
 #include <SDL.h>
 
 namespace MineyCrafty {
 namespace util {
 
-class Timer {
+class Timer : public std::enable_shared_from_this<Timer> {
 private:
     uint64_t now, last;
+    static inline std::shared_ptr<Timer> timer; 
 
 public:
     Timer();
@@ -18,6 +20,8 @@ public:
     
     void start();
     float deltaTime(); 
+
+    static std::shared_ptr<Timer> getTimer();
 };
 
 } // namespace util

@@ -26,7 +26,7 @@ private:
     std::shared_ptr<Camera> cam;
     double deltaTime = 1.0;
     std::shared_ptr<util::InputManager> inputManager;
-    util::Timer timer; 
+    std::shared_ptr<util::Timer> timer; 
     SDL_Window *window;
     SDL_GLContext context;
     Chunk chunk;

@@ -59,6 +59,8 @@ void Game::init() {
                                  glm::vec3(0.0f, 1.0f, 0.0f),
                                  glm::vec3(0.0f, 0.0f, 0.0f),
                                  SCREEN_WIDTH, SCREEN_HEIGHT);
+                    timer = make_shared<util::Timer>();
+                    timer->start();
                     cam->update();
                     chunk.init();
                     int width = 10;
@@ -80,7 +82,7 @@ void Game::init() {
 }
 
 void Game::render() {
-    timer.start();
+    timer->start();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     static glm::mat4 trans = glm::mat4(1.0f);
     trans = glm::translate(
@@ -91,7 +93,7 @@ void Game::render() {
         ), glm::vec3(-10, -10, -10));
     chunk.draw(trans);
     SDL_GL_SwapWindow(window);
-    deltaTime = timer.deltaTime();
+    deltaTime = timer->deltaTime();
 }
 
 void Game::update() {
