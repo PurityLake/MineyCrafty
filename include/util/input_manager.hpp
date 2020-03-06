@@ -18,6 +18,7 @@ public:
     InputManager();
     virtual ~InputManager();
 
+    void init();
     bool isKeyDown(char key);
     bool isKeyUp(char key);
 

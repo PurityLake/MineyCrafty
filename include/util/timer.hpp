@@ -12,7 +12,7 @@ namespace util {
 class Timer : public std::enable_shared_from_this<Timer> {
 private:
     uint64_t now, last;
-    static inline std::shared_ptr<Timer> timer; 
+    static inline std::shared_ptr<Timer> timer = nullptr;
 
 public:
     Timer();

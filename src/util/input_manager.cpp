@@ -5,11 +5,17 @@ using namespace MineyCrafty;
 using namespace util;
 
 InputManager::InputManager() {
-    buttonsDown = SDL_GetKeyboardState(NULL); 
+    buttonsDown = SDL_GetKeyboardState(NULL);
 }
 
 InputManager::~InputManager() {
 
+}
+
+void InputManager::init() {
+    if (!inputManager) {
+        inputManager = shared_from_this();
+    }
 }
 
 bool InputManager::isKeyDown(char key) {

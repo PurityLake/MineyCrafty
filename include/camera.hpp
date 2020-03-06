@@ -19,6 +19,7 @@ private:
     glm::vec3 pos, up, lookAt;
     int screenWidth, screenHeight;
     std::shared_ptr<util::InputManager> inputManager;
+    std::shared_ptr<util::Timer> timer;
 
     static inline std::shared_ptr<Camera> main = nullptr;
 
