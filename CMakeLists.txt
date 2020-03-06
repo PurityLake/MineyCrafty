@@ -7,14 +7,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SOURCES
-    src/game.cpp
+    src/util/input_manager.cpp
+    src/util/noise.cpp
+    src/util/timer.cpp
+    src/camera.cpp
+    src/chunk.cpp
     src/cube.cpp
+    src/game.cpp
     src/shader.cpp
     src/texture_atlas.cpp
-    src/chunk.cpp
-    src/timer.cpp
-    src/noise.cpp
-    src/camera.cpp
     src/main.cpp)
 
 if(WIN32)
