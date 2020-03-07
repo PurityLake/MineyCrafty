@@ -34,13 +34,15 @@ void Chunk::update() {
     );
     vector<glm::vec3> vertices;
     vector<glm::vec2> texcoords;
+    float chunkModifierX = chunkX * Chunk::w * 2;
+    float chunkModifierY = chunkY * Chunk::l * 2;
     for (const auto& pos : blocks) {
         auto& [x, y, z] = pos;
         for (int vert = 0; vert < sizeof(cubeVertices) / sizeof(GLfloat); vert += 3) {
             vertices.push_back(glm::vec3(
-                cubeVertices[vert] + x * 2 + chunkX * Chunk::w * 2,
+                cubeVertices[vert] + x * 2 + chunkModifierX,
                 cubeVertices[vert + 1] + y * 2,
-                cubeVertices[vert + 2] + z  * 2 + chunkY * Chunk::l * 2
+                cubeVertices[vert + 2] + z * 2 + chunkModifierY
             ));
         }
         if (y + 1 < Chunk::h && b[z][y + 1][x]) {
