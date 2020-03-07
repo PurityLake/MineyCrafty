@@ -66,8 +66,8 @@ void Game::init() {
                                  glm::vec3(0.0f, 0.0f, 0.0f),
                                  SCREEN_WIDTH, SCREEN_HEIGHT);
                     cam->update(0.0f, 0.0f);
-                    int width = 10;
-                    int height = 10;
+                    int width = 1;
+                    int height = 1;
                     chunks.reserve(20);
                     for (int chunkY = 1; chunkY <= 10; ++chunkY) {
                         std::vector<Chunk> chunkRow;

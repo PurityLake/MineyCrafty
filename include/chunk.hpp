@@ -32,6 +32,8 @@ private:
     int xPos, yPos;
     std::vector<std::tuple<int, int, int>> blocks;
 
+    std::vector<std::vector<std::vector<bool>>> blockBool();
+
 public:
     Chunk();
     Chunk(int x, int y);

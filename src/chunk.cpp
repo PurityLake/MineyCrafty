@@ -9,8 +9,8 @@ using namespace MineyCrafty;
 Chunk::Chunk() : Chunk(0, 0) { }
 
 Chunk::Chunk(int x, int y) : chunkX(x), chunkY(y) {
-    xPos = chunkX * w;
-    yPos = chunkY * l;
+    xPos = chunkX * Chunk::w;
+    yPos = chunkY * Chunk::l;
 }
 
 Chunk::~Chunk() { }
@@ -25,8 +25,12 @@ void Chunk::init() {
 }
 
 void Chunk::update() {
+    vector<vector<vector<bool>>> b = blockBool();
     vector<GLfloat> coords = atlas.generateTexCoords(
         pair{0, 0}, pair{1, 0}, pair{1, 0}, pair{1, 0}, pair{1, 0}, pair{2, 0}
+    );
+    vector<GLfloat> coordsNoGrass = atlas.generateTexCoords(
+        pair{2, 0}, pair{2, 0}, pair{2, 0}, pair{2, 0}, pair{2, 0}, pair{2, 0}
     );
     vector<glm::vec3> vertices;
     vector<glm::vec2> texcoords;
@@ -34,13 +38,19 @@ void Chunk::update() {
         auto& [x, y, z] = pos;
         for (int vert = 0; vert < sizeof(cubeVertices) / sizeof(GLfloat); vert += 3) {
             vertices.push_back(glm::vec3(
-                cubeVertices[vert] + x * 2 + chunkX * w,
+                cubeVertices[vert] + x * 2 + chunkX * Chunk::w,
                 cubeVertices[vert + 1] + y * 2,
-                cubeVertices[vert + 2] + z  * 2 + chunkY * l
+                cubeVertices[vert + 2] + z  * 2 + chunkY * Chunk::l
             ));
         }
-        for (int c = 0; c < coords.size(); c += 2) {
-            texcoords.push_back(glm::vec2(coords[c], coords[c+1]));
+        if (b[z][y + 1][x]) {
+            for (int c = 0; c < coordsNoGrass.size(); c += 2) {
+                texcoords.push_back(glm::vec2(coordsNoGrass[c], coordsNoGrass[c+1]));
+            }
+        } else {
+            for (int c = 0; c < coords.size(); c += 2) {
+                texcoords.push_back(glm::vec2(coords[c], coords[c+1]));
+            }
         }
     }
     glGenVertexArrays(1, &vao);
@@ -80,4 +90,24 @@ void Chunk::finalise() {
 
 pair<int, int> Chunk::getPos() {
     return pair{chunkX, chunkY};
+}
+
+vector<vector<vector<bool>>> Chunk::blockBool() {
+    vector<vector<vector<bool>>> b;
+    b.resize(Chunk::h);
+    for (int z = 0; z < Chunk::h; ++z) {
+        b[z].resize(Chunk::w);
+        for (int y = 0; y < Chunk::w; ++y) {
+            b[z][y].resize(Chunk::l);
+            for (int x = 0; x < Chunk::l; ++x) {
+                cout << "HERE\n";
+                b[z][y][x] = false;
+            }
+        }
+    }
+    for (const auto& pos : blocks) {
+        const auto& [x, y, z] = pos;
+        b[z][y][x] = true;
+    }
+    return b;
 }
