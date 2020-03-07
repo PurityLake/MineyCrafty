@@ -66,19 +66,29 @@ void Game::init() {
                                  glm::vec3(0.0f, 0.0f, 0.0f),
                                  SCREEN_WIDTH, SCREEN_HEIGHT);
                     cam->update(0.0f, 0.0f);
-                    chunk.init();
                     int width = 10;
                     int height = 10;
-                    util::NoiseVector v(width, height);
-                    for (int z = 0; z < height; ++z) {
-                        for (int x = 0; x < width; ++x) {
-                            int height = floor(v.getAt(x, z) * 20);
-                            for (int h = 0; h < height; ++h) {
-                                chunk.addCube(x, h, z);
+                    chunks.reserve(20);
+                    for (int chunkY = 1; chunkY <= 10; ++chunkY) {
+                        std::vector<Chunk> chunkRow;
+                        chunkRow.reserve(20); 
+                        for (int chunkX = 1; chunkX <= 10; ++chunkX) {
+                            Chunk chunk = Chunk(chunkX, chunkY);
+                            chunk.init();
+                            util::NoiseVector v(width, height, time(NULL));
+                            for (int z = 0; z < Chunk::l; ++z) {
+                                for (int x = 0; x < Chunk::w; ++x) {
+                                    int height = floor(v.getAt(x, z) * 20);
+                                    for (int h = 0; h < height; ++h) {
+                                        chunk.addCube(x, h, z);
+                                    }
+                                }
                             }
+                            chunk.update();
+                            chunkRow.push_back(chunk);
                         }
+                        chunks.push_back(chunkRow);
                     }
-                    chunk.update();
                 }
             }
         }
@@ -89,7 +99,11 @@ void Game::render() {
     timer->start();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     static glm::mat4 trans = glm::mat4(1.0f);
-    chunk.draw(trans);
+    for (auto& row : chunks) {
+        for (auto& c : row) {
+            c.draw(trans);
+        }
+    }
     SDL_GL_SwapWindow(window);
     deltaTime = timer->deltaTime();
 }
@@ -128,5 +142,9 @@ void Game::finalise() {
         SDL_DestroyWindow(window);
         window = nullptr;        
     }
-    chunk.finalise();
+    for (auto& row : chunks) {
+        for (auto& c : row) {
+            c.finalise();
+        }
+    }
 }

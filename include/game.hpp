@@ -30,7 +30,7 @@ private:
     std::shared_ptr<util::Timer> timer; 
     SDL_Window *window;
     SDL_GLContext context;
-    Chunk chunk;
+    std::vector<std::vector<Chunk>> chunks;
 
 public:
     Game();

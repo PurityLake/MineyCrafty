@@ -6,20 +6,14 @@
 using namespace std;
 using namespace MineyCrafty;
 
-Chunk::Chunk() { }
-Chunk::~Chunk() { }
+Chunk::Chunk() : Chunk(0, 0) { }
 
-template<typename T>
-void reshape(vector<T> &out, vector<vector<vector<T>>> v, int num_items) {
-    out.reserve(num_items);
-    for (const auto& z : v) {
-        for (const auto& y : z) {
-            for (const auto& x : y) {
-                out.push_back(x);
-            }
-        }
-    }
+Chunk::Chunk(int x, int y) : chunkX(x), chunkY(y) {
+    xPos = chunkX * w;
+    yPos = chunkY * l;
 }
+
+Chunk::~Chunk() { }
 
 void Chunk::init() {
     shader = Shader(
@@ -40,9 +34,9 @@ void Chunk::update() {
         auto& [x, y, z] = pos;
         for (int vert = 0; vert < sizeof(cubeVertices) / sizeof(GLfloat); vert += 3) {
             vertices.push_back(glm::vec3(
-                cubeVertices[vert] + x * 2,
+                cubeVertices[vert] + x * 2 + chunkX * w,
                 cubeVertices[vert + 1] + y * 2,
-                cubeVertices[vert + 2] + z * 2
+                cubeVertices[vert + 2] + z  * 2 + chunkY * l
             ));
         }
         for (int c = 0; c < coords.size(); c += 2) {
@@ -82,4 +76,8 @@ void Chunk::addCube(int x, int y, int z) {
 void Chunk::finalise() {
     shader.finalise();
     atlas.finalise();
+}
+
+pair<int, int> Chunk::getPos() {
+    return pair{chunkX, chunkY};
 }

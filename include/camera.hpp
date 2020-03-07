@@ -37,6 +37,9 @@ public:
     glm::mat4 getView();
     glm::mat4 getProj();
 
+    std::pair<int, int> getChunkPos();
+    glm::vec2 getChunkFacingDir(); 
+
     static std::shared_ptr<Camera> getMainCamera();
 };
 

@@ -62,12 +62,10 @@ void Camera::update(int relx, int rely) {
         if (inputManager->isKeyDown(SDL_SCANCODE_D)) {
             glm::vec3 rightLookAt = glm::normalize(glm::cross(pos - lookAt, up));
             pos += rightLookAt * 0.5f * deltaTime;
-            //lookAt = rightLookAt * 0.5f * deltaTime;
             updated = true;
         } else if (inputManager->isKeyDown(SDL_SCANCODE_A)) {
             glm::vec3 rightLookAt = glm::normalize(glm::cross(pos - lookAt, up));
             pos -= rightLookAt * 0.5f * deltaTime;
-            //lookAt = rightLookAt * -0.5f * deltaTime();
             updated = true;
         }
     }
@@ -87,4 +85,13 @@ std::shared_ptr<Camera> Camera::getMainCamera() {
         return main;
     }
     return nullptr;
+}
+
+pair<int, int> Camera::getChunkPos() {
+    return pair{floor(pos.x), floor(pos.z)};
+}
+
+glm::vec2 Camera::getChunkFacingDir() {
+    auto facing = pos + lookAt;
+    return glm::vec2(facing.x, facing.z);
 }

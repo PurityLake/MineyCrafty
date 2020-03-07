@@ -24,22 +24,28 @@ namespace MineyCrafty {
 
 class Chunk {
 private:
-    static constexpr int l = 20, w = 20, h = 20;
     int num_verts;
     Shader shader;
     TextureAtlas atlas;
     GLuint vao, vbo, texcoord;
+    int chunkX, chunkY;
+    int xPos, yPos;
     std::vector<std::tuple<int, int, int>> blocks;
 
 public:
     Chunk();
+    Chunk(int x, int y);
     virtual ~Chunk();
+
+    static constexpr int l = 10, w = 10, h = 10;
 
     void init();
     void update();
     void draw(glm::mat4& trans);
     void addCube(int x, int y, int z);
     void finalise();
+
+    std::pair<int, int> getPos();
 };
 
 } // namespace MineyCrafty
