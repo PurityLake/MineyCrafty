@@ -39,7 +39,7 @@ public:
     Chunk(int x, int y);
     virtual ~Chunk();
 
-    static constexpr int l = 10, w = 10, h = 10;
+    static constexpr int l = 20, w = 20, h = 20;
 
     void init();
     void update();

@@ -38,12 +38,12 @@ void Chunk::update() {
         auto& [x, y, z] = pos;
         for (int vert = 0; vert < sizeof(cubeVertices) / sizeof(GLfloat); vert += 3) {
             vertices.push_back(glm::vec3(
-                cubeVertices[vert] + x * 2 + chunkX * Chunk::w,
+                cubeVertices[vert] + x * 2 + chunkX * Chunk::w * 2,
                 cubeVertices[vert + 1] + y * 2,
-                cubeVertices[vert + 2] + z  * 2 + chunkY * Chunk::l
+                cubeVertices[vert + 2] + z  * 2 + chunkY * Chunk::l * 2
             ));
         }
-        if (b[z][y + 1][x]) {
+        if (y + 1 < Chunk::h && b[z][y + 1][x]) {
             for (int c = 0; c < coordsNoGrass.size(); c += 2) {
                 texcoords.push_back(glm::vec2(coordsNoGrass[c], coordsNoGrass[c+1]));
             }
@@ -94,16 +94,19 @@ pair<int, int> Chunk::getPos() {
 
 vector<vector<vector<bool>>> Chunk::blockBool() {
     vector<vector<vector<bool>>> b;
-    b.resize(Chunk::h);
+    b.reserve(Chunk::h);
     for (int z = 0; z < Chunk::h; ++z) {
-        b[z].resize(Chunk::w);
+        vector<vector<bool>> row;
+        row.reserve(Chunk::w);
         for (int y = 0; y < Chunk::w; ++y) {
-            b[z][y].resize(Chunk::l);
+            vector<bool> col;
+            col.reserve(Chunk::l);
             for (int x = 0; x < Chunk::l; ++x) {
-                cout << "HERE\n";
-                b[z][y][x] = false;
+                col.push_back(false);
             }
+            row.push_back(col);
         }
+        b.push_back(row);
     }
     for (const auto& pos : blocks) {
         const auto& [x, y, z] = pos;

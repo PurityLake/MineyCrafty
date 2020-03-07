@@ -66,20 +66,20 @@ void Game::init() {
                                  glm::vec3(0.0f, 0.0f, 0.0f),
                                  SCREEN_WIDTH, SCREEN_HEIGHT);
                     cam->update(0.0f, 0.0f);
-                    int width = 1;
-                    int height = 1;
+                    int width = 20;
+                    int height = 20;
                     chunks.reserve(20);
+                    util::NoiseVector v(width, height);
                     for (int chunkY = 1; chunkY <= 10; ++chunkY) {
                         std::vector<Chunk> chunkRow;
                         chunkRow.reserve(20); 
                         for (int chunkX = 1; chunkX <= 10; ++chunkX) {
                             Chunk chunk = Chunk(chunkX, chunkY);
                             chunk.init();
-                            util::NoiseVector v(width, height, time(NULL));
                             for (int z = 0; z < Chunk::l; ++z) {
                                 for (int x = 0; x < Chunk::w; ++x) {
-                                    int height = floor(v.getAt(x, z) * 20);
-                                    for (int h = 0; h < height; ++h) {
+                                    int randHeight = floor(v.getAt(x, z) * 20);
+                                    for (int h = 0; h < randHeight; ++h) {
                                         chunk.addCube(x, h, z);
                                     }
                                 }
