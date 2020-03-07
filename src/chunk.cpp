@@ -38,20 +38,29 @@ void Chunk::update() {
     float chunkModifierY = chunkY * Chunk::l * 2;
     for (const auto& pos : blocks) {
         auto& [x, y, z] = pos;
-        for (int vert = 0; vert < sizeof(cubeVertices) / sizeof(GLfloat); vert += 3) {
-            vertices.push_back(glm::vec3(
-                cubeVertices[vert] + x * 2 + chunkModifierX,
-                cubeVertices[vert + 1] + y * 2,
-                cubeVertices[vert + 2] + z * 2 + chunkModifierY
-            ));
-        }
-        if (y + 1 < Chunk::h && b[z][y + 1][x]) {
-            for (int c = 0; c < coordsNoGrass.size(); c += 2) {
-                texcoords.push_back(glm::vec2(coordsNoGrass[c], coordsNoGrass[c+1]));
+        bool blockAbove = y + 1 < Chunk::h && b[z][y + 1][x];
+        bool blockBelow = y == 0  ? true : b[z][y - 1][x];
+        bool blockInfront = x + 1 < Chunk::w ? b[z][y][x + 1] : true;
+        bool blockBehind = x == 0 ? true : b[z][y][x - 1];
+        bool blockLeft = z + 1 < Chunk::l ? b[z + 1][y][x] : true;
+        bool blockRight = z == 0 ? true : b[z - 1][y][x];
+        if (!(blockLeft && blockRight && blockInfront && blockBehind
+              && blockAbove && blockBelow)) {
+            for (int vert = 0; vert < sizeof(cubeVertices) / sizeof(GLfloat); vert += 3) {
+                vertices.push_back(glm::vec3(
+                    cubeVertices[vert] + x * 2 + chunkModifierX,
+                    cubeVertices[vert + 1] + y * 2,
+                    cubeVertices[vert + 2] + z * 2 + chunkModifierY
+                ));
             }
-        } else {
-            for (int c = 0; c < coords.size(); c += 2) {
-                texcoords.push_back(glm::vec2(coords[c], coords[c+1]));
+            if (blockAbove) {
+                for (int c = 0; c < coordsNoGrass.size(); c += 2) {
+                    texcoords.push_back(glm::vec2(coordsNoGrass[c], coordsNoGrass[c+1]));
+                }
+            } else {
+                for (int c = 0; c < coords.size(); c += 2) {
+                    texcoords.push_back(glm::vec2(coords[c], coords[c+1]));
+                }
             }
         }
     }
