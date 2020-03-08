@@ -99,7 +99,7 @@ void Chunk::generateData() {
 void Chunk::draw(glm::mat4& trans) {
     auto cam = Camera::getMainCamera();
     shader->activate(trans, cam->getView(), cam->getProj());
-    atlas->activate(shader->getProgram());
+    atlas->activate();
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glEnableVertexAttribArray(shader->getVert());
@@ -109,6 +109,7 @@ void Chunk::draw(glm::mat4& trans) {
     glVertexAttribPointer(shader->getTexCoord(), 2, GL_FLOAT, GL_FALSE, 0, 0);
     glDrawArrays(GL_TRIANGLES, 0, num_verts);
     shader->deactivate();
+    atlas->deactivate();
 }
 
 void Chunk::addCube(int x, int y, int z) {

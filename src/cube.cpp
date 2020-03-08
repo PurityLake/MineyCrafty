@@ -50,8 +50,8 @@ void Cube::draw(glm::mat4& trans) {
     );
     glm::mat4 proj = glm::perspective(45.0f, 640.0f / 480.0f, 0.1f, 100.0f);
     shader.activate(trans, view, proj);
+    atlas.activate();
     glBindVertexArray(vao);
-    atlas.activate(shader.getProgram());
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glEnableVertexAttribArray(shader.getVert());
     glVertexAttribPointer(shader.getVert(), 3, GL_FLOAT, GL_FALSE, 0, 0);
@@ -60,6 +60,7 @@ void Cube::draw(glm::mat4& trans) {
     glVertexAttribPointer(shader.getTexCoord(), 2, GL_FLOAT, GL_TRUE, 0, 0);
     glDrawArrays(GL_TRIANGLES, 0, 36);
     shader.deactivate();
+    atlas.deactivate();
 }
 
 void Cube::finalise() {

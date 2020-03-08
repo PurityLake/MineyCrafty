@@ -28,7 +28,8 @@ public:
     virtual ~TextureAtlas();
 
     void init();
-    void activate(GLuint program);
+    void activate();
+    void deactivate();
     void finalise();
 
     std::vector<GLfloat> generateTexCoords(std::pair<int, int> top,

@@ -34,9 +34,12 @@ void TextureAtlas::init() {
 	SDL_FreeSurface(texture);
 }
 
-void TextureAtlas::activate(GLuint program) {
-    glActiveTexture(GL_TEXTURE0);
+void TextureAtlas::activate() {
     glBindTexture(GL_TEXTURE_2D, atlas);
+}
+
+void TextureAtlas::deactivate() {
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void TextureAtlas::finalise() {
