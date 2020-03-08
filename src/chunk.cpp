@@ -44,27 +44,22 @@ void Chunk::update(std::shared_ptr<Chunk> left, std::shared_ptr<Chunk> right,
         bool blockAbove = y + 1 < Chunk::h && bools[z][y + 1][x];
         bool blockBelow = y == 0  ? true : bools[z][y - 1][x];
 
-        cout << "right\n";
         bool blockRight = x + 1 < Chunk::w ? bools[z][y][x + 1] : true;
         if (x + 1 == Chunk::w && right != nullptr) {
             blockRight = right->isBlockAt(0, y, z);
         }
-        cout << "left\n";
         bool blockLeft = x == 0 ? true : bools[z][y][x - 1];
         if (x == 0 && left != nullptr) {
             blockLeft = left->isBlockAt(Chunk::w - 1, y, z);
         }
-        cout << "front\n";
         bool blockInfront = z + 1 < Chunk::l ? bools[z + 1][y][x] : true;
         if (z + 1 == Chunk::l && forward != nullptr) {
             blockInfront = forward->isBlockAt(x, y, 0);
         }
-        cout << "back\n";
         bool blockBehind = z == 0 ? true : bools[z - 1][y][x];
         if (z == 0 && backward != nullptr) {
             blockBehind = backward->isBlockAt(x, y, Chunk::l - 1);
         }
-        cout << "after\n";
         
         if (!(blockLeft && blockRight && blockInfront && blockBehind
               && blockAbove && blockBelow)) {

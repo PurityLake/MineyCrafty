@@ -108,9 +108,15 @@ void Game::render() {
     timer->start();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     static glm::mat4 trans = glm::mat4(1.0f);
+    const auto &[_posX, _posY] = cam->getChunkPos();
+    int posX = _posX / (Chunk::w * 2.0f);
+    int posY = _posY / (Chunk::l * 2.0f);
     for (auto& row : chunks) {
         for (auto& c : row) {
-            c.draw(trans);
+            const auto &[chunkX, chunkY] = c.getPos();
+            if (abs(chunkX - posX) <= 2 || abs(chunkY - posY) <= 2) {
+                c.draw(trans);
+            }
         }
     }
     SDL_GL_SwapWindow(window);
