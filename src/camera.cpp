@@ -60,11 +60,11 @@ void Camera::update(int relx, int rely) {
             updated = true;
         }
         if (inputManager->isKeyDown(SDL_SCANCODE_D)) {
-            glm::vec3 rightLookAt = glm::normalize(glm::cross(pos - lookAt, up));
+            glm::vec3 rightLookAt = glm::normalize(glm::cross(lookAt, up));
             pos += rightLookAt * 10.0f * deltaTime;
             updated = true;
         } else if (inputManager->isKeyDown(SDL_SCANCODE_A)) {
-            glm::vec3 rightLookAt = glm::normalize(glm::cross(pos - lookAt, up));
+            glm::vec3 rightLookAt = glm::normalize(glm::cross(lookAt, up));
             pos -= rightLookAt * 10.0f * deltaTime;
             updated = true;
         }
