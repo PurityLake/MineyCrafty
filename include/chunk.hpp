@@ -1,6 +1,7 @@
 #ifndef __HPP_CHUNK__
 #define __HPP_CHUNK__
 
+#include <memory>
 #include <tuple>
 #include <vector>
 
@@ -25,14 +26,15 @@ namespace MineyCrafty {
 class Chunk {
 private:
     int num_verts;
-    Shader shader;
-    TextureAtlas atlas;
+    inline static std::unique_ptr<Shader> shader = nullptr;
+    inline static std::unique_ptr<TextureAtlas> atlas = nullptr;
     GLuint vao, vbo, texcoord;
     int chunkX, chunkY;
     int xPos, yPos;
     std::vector<std::tuple<int, int, int>> blocks;
+    std::vector<std::vector<std::vector<bool>>> bools;
 
-    std::vector<std::vector<std::vector<bool>>> blockBool();
+    void blockBool();
 
 public:
     Chunk();
@@ -42,10 +44,14 @@ public:
     static constexpr int l = 20, w = 20, h = 20;
 
     void init();
-    void update();
+    void update(std::shared_ptr<Chunk> left, std::shared_ptr<Chunk> right, 
+                std::shared_ptr<Chunk> forward, std::shared_ptr<Chunk> backward);
+    void generateData();
     void draw(glm::mat4& trans);
     void addCube(int x, int y, int z);
     void finalise();
+
+    bool isBlockAt(int x, int y, int z);
 
     std::pair<int, int> getPos();
 };

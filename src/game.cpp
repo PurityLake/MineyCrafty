@@ -84,10 +84,19 @@ void Game::init() {
                                     }
                                 }
                             }
-                            chunk.update();
+                            chunk.generateData();
                             chunkRow.push_back(chunk);
                         }
                         chunks.push_back(chunkRow);
+                    }
+                    for (int chunkY = 0; chunkY < 10; ++chunkY) {
+                        for (int chunkX = 0; chunkX < 10; ++chunkX) {
+                            shared_ptr<Chunk> left = chunkX > 0 ? make_shared<Chunk>(chunks[chunkY][chunkX - 1]) : nullptr;
+                            shared_ptr<Chunk> right = chunkX + 1 < 10 ? make_shared<Chunk>(chunks[chunkY][chunkX + 1]) : nullptr;
+                            shared_ptr<Chunk> back = chunkY > 0 ? make_shared<Chunk>(chunks[chunkY - 1][chunkX]) : nullptr;
+                            shared_ptr<Chunk> forward = chunkY + 1 < 10 ? make_shared<Chunk>(chunks[chunkY + 1][chunkX]) : nullptr;
+                            chunks[chunkY][chunkX].update(left, right, forward, back);
+                        }
                     }
                 }
             }
