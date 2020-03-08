@@ -34,10 +34,9 @@ void TextureAtlas::init() {
 	SDL_FreeSurface(texture);
 }
 
-void TextureAtlas::activate(GLuint program, GLint texLoc) {
+void TextureAtlas::activate(GLuint program) {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, atlas);
-    //glUniform1i(texLoc, atlas);
 }
 
 void TextureAtlas::finalise() {

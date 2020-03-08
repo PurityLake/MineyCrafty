@@ -99,7 +99,7 @@ void Chunk::generateData() {
 void Chunk::draw(glm::mat4& trans) {
     auto cam = Camera::getMainCamera();
     shader->activate(trans, cam->getView(), cam->getProj());
-    atlas->activate(shader->getProgram(), glGetUniformLocation(shader->getProgram(), "tex"));
+    atlas->activate(shader->getProgram());
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glEnableVertexAttribArray(shader->getVert());
