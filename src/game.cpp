@@ -151,8 +151,6 @@ void Game::loop() {
 }
 
 void Game::finalise() {
-    IMG_Quit();
-    SDL_Quit();
     if (window) {
         SDL_DestroyWindow(window);
         window = nullptr;        
@@ -162,4 +160,6 @@ void Game::finalise() {
             c.finalise();
         }
     }
+    IMG_Quit();
+    SDL_Quit();
 }
