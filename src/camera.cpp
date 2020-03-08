@@ -38,10 +38,11 @@ void Camera::update(int relx, int rely) {
         yaw += relx * sensitivity * deltaTime;
         pitch += rely * sensitivity * deltaTime;
 
-        if (pitch > 89.0f)
+        if (pitch > 89.0f) {
             pitch = 89.0f;
-        if (pitch < -89.0f)
+        } else if (pitch < -89.0f) {
             pitch = -89.0f;
+        }
 
         float radiansYaw = glm::radians(yaw);
         float radiansPitch = glm::radians(pitch);
@@ -60,12 +61,12 @@ void Camera::update(int relx, int rely) {
             updated = true;
         }
         if (inputManager->isKeyDown(SDL_SCANCODE_D)) {
-            glm::vec3 rightLookAt = glm::normalize(glm::cross(pos - lookAt, up));
-            pos += rightLookAt * 0.5f * deltaTime;
+            glm::vec3 rightLookAt = glm::normalize(glm::cross(lookAt, up));
+            pos += rightLookAt * 10.0f * deltaTime;
             updated = true;
         } else if (inputManager->isKeyDown(SDL_SCANCODE_A)) {
-            glm::vec3 rightLookAt = glm::normalize(glm::cross(pos - lookAt, up));
-            pos -= rightLookAt * 0.5f * deltaTime;
+            glm::vec3 rightLookAt = glm::normalize(glm::cross(lookAt, up));
+            pos -= rightLookAt * 10.0f * deltaTime;
             updated = true;
         }
     }

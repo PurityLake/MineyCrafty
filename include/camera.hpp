@@ -19,7 +19,7 @@ private:
     glm::vec3 pos, up, lookAt;
     int screenWidth, screenHeight;
     float sensitivity = 2.0f;
-    float yaw = 230.0f, pitch = 0.0f;
+    float yaw = 0.0f, pitch = 0.0f;
     
     std::shared_ptr<util::Mouse> mouse;
     std::shared_ptr<util::InputManager> inputManager;
