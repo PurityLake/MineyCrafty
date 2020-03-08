@@ -23,7 +23,7 @@ Camera::Camera(glm::vec3 pos, glm::vec3 up, glm::vec3 lookAt,
         sin(radiansYaw) * cos(radiansPitch)
     );
     view = glm::lookAt(pos, pos + lookAt, up);
-    proj = glm::perspective(45.0f, (float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
+    proj = glm::perspective(45.0f, (float)screenWidth / (float)screenHeight, 0.1f, 1000.0f);
 }
 
 Camera::~Camera() { }

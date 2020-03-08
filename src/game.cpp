@@ -53,7 +53,7 @@ void Game::init() {
                     glEnable(GL_TEXTURE_2D);
                     glEnable(GL_POLYGON_SMOOTH);
                     glDepthFunc(GL_LESS);
-                    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+                    glClearColor(0.4f, 0.4f, 0.8f, 1.0f);
                     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                     mouse = make_shared<util::Mouse>();
                     mouse->update();
@@ -114,7 +114,7 @@ void Game::render() {
     for (auto& row : chunks) {
         for (auto& c : row) {
             const auto &[chunkX, chunkY] = c.getPos();
-            if (abs(chunkX - posX) <= 2 || abs(chunkY - posY) <= 2) {
+            if (abs(chunkX - posX) <= 3 && abs(chunkY - posY) <= 3) {
                 c.draw(trans);
             }
         }
