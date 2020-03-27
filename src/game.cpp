@@ -55,19 +55,8 @@ void Game::init() {
                     glDepthFunc(GL_LESS);
                     glClearColor(0.4f, 0.4f, 0.8f, 1.0f);
                     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    mouse = make_shared<util::Mouse>();
-                    mouse->update();
-                    inputManager = make_shared<util::InputManager>();
-                    inputManager->init();
-                    timer = make_shared<util::Timer>();
-                    timer->start();
-                    cam = make_shared<Camera>(glm::vec3(40.0f, 40.0f, 40.0f),
-                                 glm::vec3(0.0f, 1.0f, 0.0f),
-                                 glm::vec3(0.0f, 0.0f, 0.0f),
-                                 SCREEN_WIDTH, SCREEN_HEIGHT);
-                    cam->update(0.0f, 0.0f);
-                    int width = 20;
-                    int height = 20;
+                    int width = Chunk::w;
+                    int height = Chunk::h;
                     chunks.reserve(20);
                     util::NoiseVector v(width, height);
                     for (int chunkY = 1; chunkY <= 10; ++chunkY) {
@@ -98,6 +87,16 @@ void Game::init() {
                             chunks[chunkY][chunkX].update(left, right, forward, back);
                         }
                     }
+                    mouse = make_shared<util::Mouse>();
+                    inputManager = make_shared<util::InputManager>();
+                    inputManager->init();
+                    timer = make_shared<util::Timer>();
+                    timer->start();
+                    cam = make_shared<Camera>(glm::vec3(40.0f, 40.0f, 40.0f),
+                                 glm::vec3(0.0f, 1.0f, 0.0f),
+                                 glm::vec3(0.0f, 0.0f, 0.0f),
+                                 SCREEN_WIDTH, SCREEN_HEIGHT);
+                    cam->update(0.0f, 0.0f);
                 }
             }
         }
@@ -124,29 +123,33 @@ void Game::render() {
 }
 
 void Game::update() {
-    cam->update(0.0f, 0.0f);
     mouse->update();
+    cam->update(0.0f, 0.0f);
 }
 
 void Game::loop() {
     bool quit = false;
     SDL_Event e;
+    bool first = true;;
     while (!quit) {
+        render();
+        update();
         while (SDL_PollEvent(&e)) {
             switch (e.type) {
                 case SDL_QUIT:
                     quit = true;
                     break;
                 case SDL_MOUSEMOTION:
-                    cam->update(e.motion.xrel, e.motion.yrel);
+                    if (!first) {
+                        cam->update(e.motion.xrel, e.motion.yrel);
+                    }
                     break;
             }
         }
         if (inputManager->isKeyDown(SDL_SCANCODE_Q)) {
             break;
         }
-        render();
-        update();
+        first = false;
     }
 }
 
