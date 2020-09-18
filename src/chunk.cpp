@@ -40,24 +40,25 @@ void Chunk::update(std::shared_ptr<Chunk> left, std::shared_ptr<Chunk> right,
     float chunkModifierX = chunkX * Chunk::w * 2;
     float chunkModifierY = chunkY * Chunk::l * 2;
     for (const auto& pos : blocks) {
-        auto& [x, y, z] = pos;
+		auto&[x, y, z] = pos;
+
         bool blockAbove = y + 1 < Chunk::h && bools[z][y + 1][x];
         bool blockBelow = y == 0  ? true : bools[z][y - 1][x];
 
         bool blockRight = x + 1 < Chunk::w ? bools[z][y][x + 1] : true;
-        if (x + 1 == Chunk::w && right != nullptr) {
+        if (!blockRight && x + 1 == Chunk::w && right != nullptr) {
             blockRight = right->isBlockAt(0, y, z);
         }
         bool blockLeft = x == 0 ? true : bools[z][y][x - 1];
-        if (x == 0 && left != nullptr) {
+        if (!blockLeft && x == 0 && left != nullptr) {
             blockLeft = left->isBlockAt(Chunk::w - 1, y, z);
         }
         bool blockInfront = z + 1 < Chunk::l ? bools[z + 1][y][x] : true;
-        if (z + 1 == Chunk::l && forward != nullptr) {
+        if (!blockInfront && z + 1 == Chunk::l && forward != nullptr) {
             blockInfront = forward->isBlockAt(x, y, 0);
         }
         bool blockBehind = z == 0 ? true : bools[z - 1][y][x];
-        if (z == 0 && backward != nullptr) {
+        if (!blockBehind && z == 0 && backward != nullptr) {
             blockBehind = backward->isBlockAt(x, y, Chunk::l - 1);
         }
         
@@ -89,7 +90,7 @@ void Chunk::update(std::shared_ptr<Chunk> left, std::shared_ptr<Chunk> right,
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, texcoord);
     glBufferData(GL_ARRAY_BUFFER, texcoords.size() * sizeof(glm::vec2), &texcoords[0], GL_STATIC_DRAW);
-    num_verts = vertices.size();
+	num_verts = vertices.size();
 }
 
 void Chunk::generateData() {

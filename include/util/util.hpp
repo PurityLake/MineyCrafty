@@ -7,7 +7,6 @@
 
 #include <util/input_manager.hpp>
 #include <util/mouse.hpp>
-#include <util/noise.hpp>
 #include <util/timer.hpp>
 
 namespace MineyCrafty {

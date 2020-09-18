@@ -17,6 +17,8 @@
 #include <chunk.hpp>
 #include <util/util.hpp>
 
+#include <FastNoise.h>
+
 namespace MineyCrafty {
 
 class Game {
@@ -31,6 +33,8 @@ private:
     SDL_Window *window;
     SDL_GLContext context;
     std::vector<std::vector<Chunk>> chunks;
+
+	float getNoise(FastNoise &noise, int x, int y);
 
 public:
     Game();

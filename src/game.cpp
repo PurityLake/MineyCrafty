@@ -10,8 +10,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "FastNoise.h"
-
 using namespace std;
 using namespace MineyCrafty;
 
@@ -21,6 +19,11 @@ Game::Game() {
 
 Game::~Game() {
 
+}
+
+float Game::getNoise(FastNoise& noise, int x, int y) {
+	float v = noise.GetNoise(x, y) / 2.0f + 0.5f;
+	return v;
 }
 
 void Game::init() {
@@ -60,46 +63,46 @@ void Game::init() {
                     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                     int width = Chunk::w;
                     int height = Chunk::h;
-                    chunks.reserve(20);
+                    chunks.reserve(10);
                     FastNoise noise;
                     noise.SetNoiseType(FastNoise::SimplexFractal);
-                    util::NoiseVector v(width, height);
-                    for (int chunkY = 1; chunkY <= 10; ++chunkY) {
-                        std::vector<Chunk> chunkRow;
-                        chunkRow.reserve(20); 
-                        for (int chunkX = 1; chunkX <= 10; ++chunkX) {
-                            Chunk chunk = Chunk(chunkX, chunkY);
-                            chunk.init();
-                            for (int z = 0; z < Chunk::l; ++z) {
-                                for (int x = 0; x < Chunk::w; ++x) {
-                                    int nx = x + ((chunkX - 1) * width);
-                                    int ny = z + ((chunkY - 1) * height);
-                                    float e = 1 * noise.GetNoise(nx, ny)
-                                        + 0.5 * noise.GetNoise(2 * nx, 2 * ny)
-                                        + 0.25 * noise.GetNoise(4 * nx, 4 * nx);
-                                    e = pow(e, 0.4f);
-                                    int randHeight = ceil(e * 20);
-                                    if (randHeight == 0) {
-                                        randHeight = 1;
-                                    }
-                                    
-                                    for (int h = 0; h < randHeight; ++h) {
-                                        chunk.addCube(x, h, z);
-                                    }
-                                }
-                            }
-                            chunk.generateData();
-                            chunkRow.push_back(chunk);
-                        }
-                        chunks.push_back(chunkRow);
-                    }
+					for (int chunkY = 1; chunkY <= 10; ++chunkY) {
+						std::vector<Chunk> chunkRow;
+						chunkRow.reserve(10);
+						for (int chunkX = 1; chunkX <= 10; ++chunkX) {
+							Chunk chunk = Chunk(chunkX, chunkY);
+							chunk.init();
+							for (int z = 0; z < Chunk::l; ++z) {
+								for (int x = 0; x < Chunk::w; ++x) {
+									int nx = x + ((chunkX - 1) * width);
+									int ny = z + ((chunkY - 1) * height);
+									float e = 1 * getNoise(noise, nx, ny)
+										+ 0.5  * getNoise(noise, 2 * nx, 2 * ny)
+										+ 0.25 * getNoise(noise, 4 * nx, 4 * nx);
+									//e = pow(e, 0.4f);
+									int randHeight = floor(e * 20);
+									if (randHeight < 0) {
+										randHeight = 1;
+									}
+									randHeight = min(randHeight, 20);
+
+									for (int h = 0; h < randHeight; ++h) {
+										chunk.addCube(x, h, z);
+									}
+								}
+							}
+							chunk.generateData();
+							chunkRow.push_back(chunk);
+						}
+						chunks.push_back(chunkRow);
+					}
                     for (int chunkY = 0; chunkY < 10; ++chunkY) {
                         for (int chunkX = 0; chunkX < 10; ++chunkX) {
                             shared_ptr<Chunk> left = chunkX > 0 ? make_shared<Chunk>(chunks[chunkY][chunkX - 1]) : nullptr;
                             shared_ptr<Chunk> right = chunkX + 1 < 10 ? make_shared<Chunk>(chunks[chunkY][chunkX + 1]) : nullptr;
                             shared_ptr<Chunk> back = chunkY > 0 ? make_shared<Chunk>(chunks[chunkY - 1][chunkX]) : nullptr;
                             shared_ptr<Chunk> forward = chunkY + 1 < 10 ? make_shared<Chunk>(chunks[chunkY + 1][chunkX]) : nullptr;
-                            chunks[chunkY][chunkX].update(left, right, forward, back);
+							chunks[chunkY][chunkX].update(left, right, forward, back);
                         }
                     }
                     mouse = make_shared<util::Mouse>();
