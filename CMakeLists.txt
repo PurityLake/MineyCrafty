@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SOURCES
+    src/FastNoise.cpp
     src/util/input_manager.cpp
     src/util/mouse.cpp
     src/util/noise.cpp
@@ -69,7 +70,6 @@ else()
     find_package(SDL2_image REQUIRED)
     find_package(SDL2_ttf REQUIRED)
     find_package(SDL2_mixer REQUIRED)
-    find_package(SDL2_gfx REQUIRED)
     find_package(SDL2_net REQUIRED)
 
     include_directories(${CMAKE_SOURCE_DIR}/include ${GLEW_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} 

@@ -2,12 +2,15 @@
 
 #include <SDL_image.h>
 
+#include <cmath>
 #include <ctime>
 #include <iostream>
 
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
+#include "FastNoise.h"
 
 using namespace std;
 using namespace MineyCrafty;
@@ -58,6 +61,8 @@ void Game::init() {
                     int width = Chunk::w;
                     int height = Chunk::h;
                     chunks.reserve(20);
+                    FastNoise noise;
+                    noise.SetNoiseType(FastNoise::SimplexFractal);
                     util::NoiseVector v(width, height);
                     for (int chunkY = 1; chunkY <= 10; ++chunkY) {
                         std::vector<Chunk> chunkRow;
@@ -67,7 +72,17 @@ void Game::init() {
                             chunk.init();
                             for (int z = 0; z < Chunk::l; ++z) {
                                 for (int x = 0; x < Chunk::w; ++x) {
-                                    int randHeight = floor(v.getAt(x, z) * 20);
+                                    int nx = x + ((chunkX - 1) * width);
+                                    int ny = z + ((chunkY - 1) * height);
+                                    float e = 1 * noise.GetNoise(nx, ny)
+                                        + 0.5 * noise.GetNoise(2 * nx, 2 * ny)
+                                        + 0.25 * noise.GetNoise(4 * nx, 4 * nx);
+                                    e = pow(e, 0.4f);
+                                    int randHeight = ceil(e * 20);
+                                    if (randHeight == 0) {
+                                        randHeight = 1;
+                                    }
+                                    
                                     for (int h = 0; h < randHeight; ++h) {
                                         chunk.addCube(x, h, z);
                                     }
