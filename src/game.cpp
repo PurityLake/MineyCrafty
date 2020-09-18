@@ -22,8 +22,7 @@ Game::~Game() {
 }
 
 float Game::getNoise(FastNoise& noise, int x, int y) {
-	float v = noise.GetNoise(x, y) / 2.0f + 0.5f;
-	return v;
+	return noise.GetNoise(static_cast<FN_DECIMAL>(x), static_cast<FN_DECIMAL>(y)) / 2.0f + 0.5f;
 }
 
 void Game::init() {
@@ -76,11 +75,11 @@ void Game::init() {
 								for (int x = 0; x < Chunk::w; ++x) {
 									int nx = x + ((chunkX - 1) * width);
 									int ny = z + ((chunkY - 1) * height);
-									float e = 1 * getNoise(noise, nx, ny)
-										+ 0.5  * getNoise(noise, 2 * nx, 2 * ny)
-										+ 0.25 * getNoise(noise, 4 * nx, 4 * nx);
+									float e = 1     * getNoise(noise, nx, ny)
+										    + 0.5f  * getNoise(noise, 2 * nx, 2 * ny)
+										    + 0.25f * getNoise(noise, 4 * nx, 4 * nx);
 									//e = pow(e, 0.4f);
-									int randHeight = floor(e * 20);
+									int randHeight = static_cast<int>(floor(e * 20.0f));
 									if (randHeight < 0) {
 										randHeight = 1;
 									}
@@ -114,7 +113,7 @@ void Game::init() {
                                  glm::vec3(0.0f, 1.0f, 0.0f),
                                  glm::vec3(0.0f, 0.0f, 0.0f),
                                  SCREEN_WIDTH, SCREEN_HEIGHT);
-                    cam->update(0.0f, 0.0f);
+                    cam->update(0, 0);
                 }
             }
         }
@@ -126,8 +125,8 @@ void Game::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     static glm::mat4 trans = glm::mat4(1.0f);
     const auto &[_posX, _posY] = cam->getChunkPos();
-    int posX = _posX / (Chunk::w * 2.0f);
-    int posY = _posY / (Chunk::l * 2.0f);
+    int posX = _posX / (Chunk::w * 2);
+    int posY = _posY / (Chunk::l * 2);
     for (auto& row : chunks) {
         for (auto& c : row) {
             const auto &[chunkX, chunkY] = c.getPos();
@@ -142,7 +141,7 @@ void Game::render() {
 
 void Game::update() {
     mouse->update();
-    cam->update(0.0f, 0.0f);
+    cam->update(0, 0);
 }
 
 void Game::loop() {

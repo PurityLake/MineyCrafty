@@ -18,7 +18,7 @@ inline std::string joinPath(std::initializer_list<std::string> paths) {
 #else
     static const char pathSep = '/';
 #endif
-    int i = 0;
+    size_t i = 0;
     std::stringstream ss;
     ss << '.' << pathSep;
     for (const auto& p : paths) {

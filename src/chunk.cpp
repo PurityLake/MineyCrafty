@@ -37,8 +37,8 @@ void Chunk::update(std::shared_ptr<Chunk> left, std::shared_ptr<Chunk> right,
     );
     vector<glm::vec3> vertices;
     vector<glm::vec2> texcoords;
-    float chunkModifierX = chunkX * Chunk::w * 2;
-    float chunkModifierY = chunkY * Chunk::l * 2;
+    float chunkModifierX = static_cast<float>(chunkX * Chunk::w * 2);
+    float chunkModifierY = static_cast<float>(chunkY * Chunk::l * 2);
     for (const auto& pos : blocks) {
 		auto&[x, y, z] = pos;
 
@@ -72,11 +72,11 @@ void Chunk::update(std::shared_ptr<Chunk> left, std::shared_ptr<Chunk> right,
                 ));
             }
             if (blockAbove) {
-                for (int c = 0; c < coordsNoGrass.size(); c += 2) {
+                for (size_t c = 0; c < coordsNoGrass.size(); c += 2) {
                     texcoords.push_back(glm::vec2(coordsNoGrass[c], coordsNoGrass[c+1]));
                 }
             } else {
-                for (int c = 0; c < coords.size(); c += 2) {
+                for (size_t c = 0; c < coords.size(); c += 2) {
                     texcoords.push_back(glm::vec2(coords[c], coords[c+1]));
                 }
             }
