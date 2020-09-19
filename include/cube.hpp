@@ -92,25 +92,6 @@ static inline GLfloat cubeVertices[] = {
     -1.0f, -1.0f, -1.0f,
 };
 
-class Cube {
-private:
-    Shader shader;
-    GLuint vao, vbo, texcoord;
-    TextureAtlas atlas;
-    int x, y, z;
-
-public:
-    Cube();
-    Cube(int x, int y, int z);
-    virtual ~Cube();
-
-    void init();
-    void draw(glm::mat4& trans);
-    void finalise();
-
-private:
-};
-
 } // namespace MineyCrafty
 
 #endif /* __HPP_CUBE__ */

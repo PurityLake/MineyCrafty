@@ -78,7 +78,8 @@ void Game::init() {
 									float e = 1     * getNoise(noise, nx, ny)
 										    + 0.5f  * getNoise(noise, 2 * nx, 2 * ny)
 										    + 0.25f * getNoise(noise, 4 * nx, 4 * nx);
-									//e = pow(e, 0.4f);
+									e = pow(e, 0.4f);
+									//e = round(e * 24.0f) / 24.0f;
 									int randHeight = static_cast<int>(floor(e * 20.0f));
 									if (randHeight < 0) {
 										randHeight = 1;

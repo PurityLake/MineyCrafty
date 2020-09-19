@@ -26,7 +26,6 @@ set(SOURCES
     src/util/timer.cpp
     src/camera.cpp
     src/chunk.cpp
-    src/cube.cpp
     src/game.cpp
     src/shader.cpp
     src/texture_atlas.cpp
