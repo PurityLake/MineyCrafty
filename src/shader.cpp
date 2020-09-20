@@ -7,8 +7,11 @@ using namespace std;
 using namespace MineyCrafty;
 
 Shader::Shader() { }
-Shader::Shader(string vertFilename, string fragFilename)
-    : vertFilename(vertFilename), fragFilename(fragFilename) { }
+Shader::Shader(string vertFilename, string fragFilename, 
+	bool storePos, bool storeNormal, bool storeTexCoord,
+	bool storeModel, bool storeView, bool storeProj)
+    : vertFilename(vertFilename), fragFilename(fragFilename), storePos(storePos), storeNormal(storeNormal),
+	storeTexCoord(storeTexCoord), storeModel(storeModel), storeView(storeView), storeProj(storeProj) { }
 Shader::~Shader() { }
 
 string Shader::readFile(string filename) {
@@ -35,7 +38,7 @@ void Shader::init() {
     GLint shaderCompiled = GL_FALSE;
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &shaderCompiled);
     if (shaderCompiled != GL_TRUE) {
-        cerr << "Unable to compile vertex shader '" << vertFilename << '\'' << endl;
+        cout << "Unable to compile vertex shader '" << vertFilename << '\'' << endl;
         printShaderLog(vertexShader);
         return;
     } else {
@@ -47,7 +50,7 @@ void Shader::init() {
         glCompileShader(fragmentShader);
         glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &shaderCompiled);
         if (shaderCompiled != GL_TRUE) {
-            cerr << "Unable to compile fragment shader '" << fragFilename << '\'' << endl;
+            cout << "Unable to compile fragment shader '" << fragFilename << '\'' << endl;
             printShaderLog(fragmentShader);
             return;
         } else {
@@ -56,27 +59,30 @@ void Shader::init() {
             GLint programSuccess = GL_TRUE;
             glGetProgramiv(program, GL_LINK_STATUS, &programSuccess);
             if (programSuccess != GL_TRUE) {
-                cerr << "Error linking program " << program << endl;
+                cout << "Error linking program " << program << endl;
                 printProgramLog(program);
                 return;
             } else {
                 glDeleteShader(vertexShader);
                 glDeleteShader(fragmentShader);
-                vert = glGetAttribLocation(program, "vert");
-                if (vert == -1) {
-                    cerr << "vert is not a valid glsl program variable!" << endl;
-                    return;
-                } else {
-                    texcoord = glGetAttribLocation(program, "texcoord");
-                    if (texcoord == -1) {
-                        cerr << "texcoord is not a valid glsl program variable!" << endl;
-                        return;
-                    } else {
-                        model = glGetUniformLocation(program, "model");
-                        view  = glGetUniformLocation(program, "view");
-                        proj  = glGetUniformLocation(program, "proj");
-                    }
-                }
+				if (storePos) {
+					pos = glGetAttribLocation(program, "pos");
+				}
+				if (storeNormal) {
+					normal = glGetAttribLocation(program, "normal");
+				}
+				if (storeTexCoord) {
+					texcoord = glGetAttribLocation(program, "texcoord");
+				}
+				if (storeModel) {
+					model = glGetUniformLocation(program, "model");
+				}
+				if (storeView) {
+					view = glGetUniformLocation(program, "view");
+				}
+				if (storeProj) {
+					proj = glGetUniformLocation(program, "proj");
+				}
             }
         }
     }
@@ -86,9 +92,15 @@ void Shader::init() {
 void Shader::activate(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p) {
     if (valid) {
         glUseProgram(program);
-        glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(m));
-        glUniformMatrix4fv(view, 1, GL_FALSE, glm::value_ptr(v));
-        glUniformMatrix4fv(proj, 1, GL_FALSE, glm::value_ptr(p));
+		if (storeModel) {
+			glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(m));
+		}
+		if (storeView) {
+			glUniformMatrix4fv(view, 1, GL_FALSE, glm::value_ptr(v));
+		}
+		if (storeProj) {
+			glUniformMatrix4fv(proj, 1, GL_FALSE, glm::value_ptr(p));
+		}
     }
 }
 
@@ -107,7 +119,7 @@ void Shader::printProgramLog(GLuint program) {
     char* infoLog = new char[ maxLength ];
     glGetProgramInfoLog( program, maxLength, &infoLogLength, infoLog );
     if( infoLogLength > 0 ) {
-        cerr << infoLog << endl;
+        cout << infoLog << endl;
     }
     delete[] infoLog;
 }
@@ -119,7 +131,7 @@ void Shader::printShaderLog(GLuint shader) {
     char* infoLog = new char[ maxLength ];
     glGetShaderInfoLog( shader, maxLength, &infoLogLength, infoLog );
     if( infoLogLength > 0 ) {
-        cerr << infoLog << endl;
+        cout << infoLog << endl;
     }
     delete[] infoLog;
 }

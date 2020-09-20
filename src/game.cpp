@@ -13,6 +13,19 @@
 using namespace std;
 using namespace MineyCrafty;
 
+static const GLfloat g_quad_vertex_buffer_data[] = {
+		-1.0f, -1.0f, 0.0f,
+		 1.0f, -1.0f, 0.0f,
+		-1.0f,  1.0f, 0.0f,
+		-1.0f,  1.0f, 0.0f,
+		 1.0f, -1.0f, 0.0f,
+		 1.0f,  1.0f, 0.0f,
+};
+
+static GLuint vao;
+static GLuint quadVertexBuffer;
+static Shader quadShader;
+
 Game::Game() {
 
 }
@@ -33,7 +46,7 @@ void Game::init() {
             cerr << "SDL_image could not initialise! " << IMG_GetError() << endl;
         } else {
             SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
             SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
             window = SDL_CreateWindow("MineyCrafty", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -48,16 +61,51 @@ void Game::init() {
                     glewExperimental = GL_TRUE;
                     GLenum glewError = glewInit();
                     if (glewError != GLEW_OK) {
-                        cerr << "Error initializing GLEW! " << glewGetErrorString(glewError) << endl;
+                        cout << "Error initializing GLEW! " << glewGetErrorString(glewError) << endl;
                     }
                     if (SDL_GL_SetSwapInterval(1) < 0) {
-                        cerr << "Warning: Unable to set VSync! SDL Error: %s\n" << SDL_GetError() << endl;
+                        cout << "Warning: Unable to set VSync! SDL Error: %s\n" << SDL_GetError() << endl;
                     }
                     SDL_SetRelativeMouseMode(SDL_TRUE);
-                    glEnable(GL_DEPTH_TEST);
-                    glEnable(GL_TEXTURE_2D);
-                    glEnable(GL_POLYGON_SMOOTH);
-                    glDepthFunc(GL_LESS);
+
+					glEnable(GL_DEPTH_TEST);
+					glEnable(GL_TEXTURE_2D);
+					glEnable(GL_POLYGON_SMOOTH);
+					glDepthFunc(GL_LESS);
+
+					glGenFramebuffers(1, &depthMapFBO);
+					glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+
+					glGenTextures(1, &depthMap);
+					glBindTexture(GL_TEXTURE_2D, depthMap);
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT,
+						0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+					glBindTexture(GL_TEXTURE_2D, 0);
+
+					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+
+					glDrawBuffer(GL_NONE);
+					
+					if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+						cout << "FAILED\n";
+					}
+
+					glGenVertexArrays(1, &vao);
+					glBindVertexArray(vao);
+					glGenBuffers(1, &quadVertexBuffer);
+					glBindBuffer(GL_ARRAY_BUFFER, quadVertexBuffer);
+					glBufferData(GL_ARRAY_BUFFER, sizeof(g_quad_vertex_buffer_data), g_quad_vertex_buffer_data, GL_STATIC_DRAW);
+					glBindVertexArray(0);
+
+					quadShader = Shader(util::joinPath({ "resources", "quadvert.glsl" }),
+						util::joinPath({ "resources", "quadfrag.glsl" }), true, false, false, false, false, false);
+					quadShader.init();
+
                     glClearColor(0.4f, 0.4f, 0.8f, 1.0f);
                     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                     int width = Chunk::w;
@@ -78,8 +126,8 @@ void Game::init() {
 									float e = 1     * getNoise(noise, nx, ny)
 										    + 0.5f  * getNoise(noise, 2 * nx, 2 * ny)
 										    + 0.25f * getNoise(noise, 4 * nx, 4 * nx);
-									e = pow(e, 0.4f);
-									//e = round(e * 24.0f) / 24.0f;
+									//e = pow(e, 0.4f);
+									e = round(e * 24.0f) / 24.0f;
 									int randHeight = static_cast<int>(floor(e * 20.0f));
 									if (randHeight < 0) {
 										randHeight = 1;
@@ -110,11 +158,27 @@ void Game::init() {
                     inputManager->init();
                     timer = make_shared<util::Timer>();
                     timer->start();
-                    cam = make_shared<Camera>(glm::vec3(40.0f, 40.0f, 40.0f),
-                                 glm::vec3(0.0f, 1.0f, 0.0f),
-                                 glm::vec3(0.0f, 0.0f, 0.0f),
-                                 SCREEN_WIDTH, SCREEN_HEIGHT);
-                    cam->update(0, 0);
+					cam = make_shared<Camera>(glm::vec3(40.0f, 40.0f, 40.0f),
+						glm::vec3(0.0f, 1.0f, 0.0f),
+						glm::vec3(0.0f, 0.0f, 0.0f),
+						SCREEN_WIDTH, SCREEN_HEIGHT);
+					cam->update(0.001f, 0.001f);
+
+					float nearPlane = -1.0f, farPlane = 10000.0f;
+					//glm::mat4 lightProjection = glm::ortho(0.0f, static_cast<float>(SCREEN_WIDTH), 0.0f, static_cast<float>(SCREEN_HEIGHT), nearPlane, farPlane);
+					glm::mat4 lightProjection = glm::ortho(-100.0f, 100.0f, -100.0f, 100.0f, nearPlane, farPlane);
+					glm::mat4 lightView = glm::lookAt(glm::vec3(80.0f, 100.0f, 80.0f),
+						glm::vec3(0.0f, 0.0f, 0.0f),
+						glm::vec3(0.0f, 1.0f, 0.0f));
+
+					glm::mat4 biasMatrix(
+						0.5, 0.0, 0.0, 0.0,
+						0.0, 0.5, 0.0, 0.0,
+						0.0, 0.0, 0.5, 0.0,
+						0.5, 0.5, 0.5, 1.0
+					);
+
+					lightSpace = biasMatrix * lightProjection * lightView;
                 }
             }
         }
@@ -123,21 +187,69 @@ void Game::init() {
 
 void Game::render() {
     timer->start();
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     static glm::mat4 trans = glm::mat4(1.0f);
     const auto &[_posX, _posY] = cam->getChunkPos();
     int posX = _posX / (Chunk::w * 2);
-    int posY = _posY / (Chunk::l * 2);
-    for (auto& row : chunks) {
-        for (auto& c : row) {
-            const auto &[chunkX, chunkY] = c.getPos();
-            if (abs(chunkX - posX) <= 3 && abs(chunkY - posY) <= 3) {
-                c.draw(trans);
-            }
-        }
-    }
+	int posY = _posY / (Chunk::l * 2);
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		for (auto& row : chunks) {
+			for (auto& c : row) {
+				const auto &[chunkX, chunkY] = c.getPos();
+				if (abs(chunkX - posX) <= 3 && abs(chunkY - posY) <= 3) {
+					c.drawShadow(trans, lightSpace);
+				}
+			}
+		}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	for (auto& row : chunks) {
+		for (auto& c : row) {
+			const auto &[chunkX, chunkY] = c.getPos();
+			if (abs(chunkX - posX) <= 3 && abs(chunkY - posY) <= 3) {
+				c.draw(trans, lightSpace, depthMap);
+			}
+		}
+	}
+	glViewport(0, 0, 100, 100);
+	quadShader.activate(glm::mat4(1.0f), glm::mat4(1.0f), glm::mat4(1.0f));
+	glBindVertexArray(vao);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glUniform1i(glGetUniformLocation(quadShader.getProgram(), "tex"), 0);
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVertexBuffer);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDisableVertexAttribArray(0);
+	glBindVertexArray(0);
+	quadShader.deactivate();
+
     SDL_GL_SwapWindow(window);
     deltaTime = timer->deltaTime();
+
+	float nearPlane = -1.0f, farPlane = 10000.0f;
+	//glm::mat4 lightProjection = glm::ortho(-static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_WIDTH), -static_cast<float>(SCREEN_HEIGHT), static_cast<float>(SCREEN_HEIGHT), nearPlane, farPlane);
+	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 100.0f, nearPlane, farPlane);
+	glm::mat4 lightView = glm::lookAt(glm::vec3(80.0f, 100.0f, 80.0f),
+		glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f));
+
+	glm::mat4 biasMatrix(
+		0.5, 0.0, 0.0, 0.0,
+		0.0, 0.5, 0.0, 0.0,
+		0.0, 0.0, 0.5, 0.0,
+		0.5, 0.5, 0.5, 1.0
+	);
+
+	lightSpace = biasMatrix * lightProjection * lightView;
 }
 
 void Game::update() {

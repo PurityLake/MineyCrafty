@@ -26,9 +26,9 @@ namespace MineyCrafty {
 class Chunk {
 private:
     int num_verts;
-    inline static std::unique_ptr<Shader> shader = nullptr;
+    inline static std::unique_ptr<Shader> shader = nullptr, shadowShader = nullptr;
     inline static std::unique_ptr<TextureAtlas> atlas = nullptr;
-    GLuint vao, vbo, texcoord;
+    GLuint vao, vbo, texcoord, normal;
     int chunkX, chunkY;
     int xPos, yPos;
     std::vector<std::tuple<int, int, int>> blocks;
@@ -47,7 +47,8 @@ public:
     void update(std::shared_ptr<Chunk> left, std::shared_ptr<Chunk> right, 
                 std::shared_ptr<Chunk> forward, std::shared_ptr<Chunk> backward);
     void generateData();
-    void draw(glm::mat4& trans);
+    void draw(glm::mat4& trans, glm::mat4& lightSpace, GLuint depthMap);
+	void drawShadow(glm::mat4& trans, glm::mat4& lightSpace);
     void addCube(int x, int y, int z);
     void finalise();
 

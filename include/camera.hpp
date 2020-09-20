@@ -40,6 +40,13 @@ public:
     std::pair<int, int> getChunkPos();
     glm::vec2 getChunkFacingDir(); 
 
+	glm::vec3 getPos() {
+		return pos;
+	}
+	glm::vec3 getLookAt() {
+		return lookAt;
+	}
+
     static std::shared_ptr<Camera> getMainCamera();
 };
 

@@ -28,7 +28,7 @@ public:
     virtual ~TextureAtlas();
 
     void init();
-    void activate();
+    void activate(GLuint progrma);
     void deactivate();
     void finalise();
 

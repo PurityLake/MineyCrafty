@@ -33,6 +33,9 @@ private:
     SDL_Window *window;
     SDL_GLContext context;
     std::vector<std::vector<Chunk>> chunks;
+	GLuint  depthMapFBO, depthMap;
+	glm::mat4 lightSpace;
+	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 
 	float getNoise(FastNoise &noise, int x, int y);
 
