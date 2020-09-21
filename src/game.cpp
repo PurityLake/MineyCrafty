@@ -84,7 +84,7 @@ void Game::init() {
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
 					glBindTexture(GL_TEXTURE_2D, 0);
 
 					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
@@ -168,7 +168,7 @@ void Game::init() {
 					//glm::mat4 lightProjection = glm::ortho(0.0f, static_cast<float>(SCREEN_WIDTH), 0.0f, static_cast<float>(SCREEN_HEIGHT), nearPlane, farPlane);
 					glm::mat4 lightProjection = glm::ortho(-100.0f, 100.0f, -100.0f, 100.0f, nearPlane, farPlane);
 					glm::mat4 lightView = glm::lookAt(glm::vec3(80.0f, 100.0f, 80.0f),
-						glm::vec3(0.0f, 0.0f, 0.0f),
+						glm::vec3(80.0f, 0.0f, 80.0f),
 						glm::vec3(0.0f, 1.0f, 0.0f));
 
 					glm::mat4 biasMatrix(
@@ -195,7 +195,7 @@ void Game::render() {
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		glClear(GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
+		glCullFace(GL_FRONT);
 		for (auto& row : chunks) {
 			for (auto& c : row) {
 				const auto &[chunkX, chunkY] = c.getPos();
