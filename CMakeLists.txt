@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.7)
 
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        CACHE STRING "")
+endif()
+
 project(MineyCrafty)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -32,52 +36,26 @@ set(SOURCES
     src/main.cpp)
 
 if(WIN32)
-    set(SDL_PATH "C:/gamedev/sdl")
-    set(GLEW_PATH "C:/gamedev/glew")
-    list(APPEND CMAKE_PREFIX_PATH ${SDL_PATH})
-    list(APPEND CMAKE_PREFIX_PATH ${GLEW_PATH})
-    
     find_package(OpenGL REQUIRED)
-    find_package(SDL2 REQUIRED)
-    find_package(SDL2_image REQUIRED)
-    find_package(SDL2_ttf REQUIRED)
-    find_package(SDL2_mixer REQUIRED)
-    #find_package(SDL2_gfx REQUIRED)
-    find_package(SDL2_net REQUIRED)
+    find_package(GLEW REQUIRED)
+    find_package(SDL2 CONFIG REQUIRED)
+    find_package(sdl2-image CONFIG REQUIRED)
+    find_package(sdl2-ttf CONFIG REQUIRED)
+    find_package(sdl2-mixer CONFIG REQUIRED)
+    find_package(sdl2-net CONFIG REQUIRED)
 
     set(GLEW_INCLUDE_DIRS ${GLEW_PATH}/include)
 
+    add_executable(mineycrafty WIN32 ${SOURCES})
 
-    include_directories(${CMAKE_SOURCE_DIR}/include ${GLEW_INCLUDE_DIRS}
-        ${SDL2_INCLUDE_DIRS})
+    target_link_libraries(mineycrafty PRIVATE GLEW::GLEW)
+    target_link_libraries(mineycrafty PRIVATE SDL2::SDL2 SDL2::SDL2main)
+    target_link_libraries(mineycrafty PRIVATE SDL2::SDL2_image)
+    target_link_libraries(mineycrafty PRIVATE SDL2::SDL2_ttf)
+    target_link_libraries(mineycrafty PRIVATE SDL2::SDL2_mixer)
+    target_link_libraries(mineycrafty PRIVATE SDL2::SDL2_net)
     
-    if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
-        link_directories("${SDL2_PATH}/lib/x64;${GLEW_PATH}/lib/x64")
-        file(COPY "${SDL_PATH}/lib/x64/*.dll" 
-            DESTINATION "./Debug"
-            FILES_MATCHING
-                PATTERN "*.dll")
-        file(COPY "${GLEW_PATH}/bin/x64/glew32.dll" DESTINATION "./Debug")
-        set(GLEW_LIBRARIES ${GLEW_PATH}/lib/x64/glew32.lib)
-    else()
-        link_directories("${SDL2_PATH}/lib/x86;${GLEW_PATH}/lib/x86")
-        file(COPY "${SDL_PATH}/lib/x86/" 
-        DESTINATION "./Debug"
-        FILES_MATCHING
-            PATTERN "*.dll")
-        file(COPY "${GLEW_PATH}/bin/x86/glew32.dll" DESTINATION "./Debug")
-        set(GLEW_LIBRARIES ${GLEW_PATH}/lib/x86/glew32.lib)
-    endif()
-
-	include_directories(${CMAKE_SOURCE_DIR}/include ${GLEW_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} 
-        ${SDL2_TTF_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS} ${SDL2_GFX_INCLUDE_DIRS}
-        ${SDL2_NET_INCLUDE_DIRS})# ${BULLET_INCLUDE_DIRS})
-    
-    add_executable(MineyCrafty WIN32 ${SOURCES} ${HEADERS})
-    target_link_libraries(MineyCrafty ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES}
-        ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARY} 
-        ${SDL2_MIXER_LIBRARY})
-        #${BULLET_LBRARIES}) 
+    include_directories(${GLEW_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/include)
 else()
     find_package(OpenGL REQUIRED)
     find_package(GLEW REQUIRED)
@@ -89,14 +67,12 @@ else()
 
     include_directories(${CMAKE_SOURCE_DIR}/include ${GLEW_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} 
         ${SDL2_TTF_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS} ${SDL2_GFX_INCLUDE_DIRS}
-        ${SDL2_NET_INCLUDE_DIRS})# ${BULLET_INCLUDE_DIRS})
+        ${SDL2_NET_INCLUDE_DIRS})
 
     add_executable(MineyCrafty ${SOURCES})
     target_link_libraries(MineyCrafty ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} 
         ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARY} 
         ${SDL2_MIXER_LIBRARY} ${SDL2_GFX_LIBRARY} ${SDL2_NET_LIBRARY})
-        #${BULLET_LBRARIES}) 
 endif()
 
-#find_package(Bullet REQUIRED)
 file(COPY "resources" DESTINATION ".")
