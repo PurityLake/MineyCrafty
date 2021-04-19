@@ -70,7 +70,7 @@ void Game::init() {
 
 					glEnable(GL_DEPTH_TEST);
 					glEnable(GL_TEXTURE_2D);
-					glEnable(GL_POLYGON_SMOOTH);
+					//glEnable(GL_POLYGON_SMOOTH);
 					glDepthFunc(GL_LESS);
 
 					glGenFramebuffers(1, &depthMapFBO);

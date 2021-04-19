@@ -23,8 +23,8 @@ namespace MineyCrafty {
 
 class Game {
 private:
-    static constexpr int SCREEN_WIDTH = 640;
-    static constexpr int SCREEN_HEIGHT = 480;
+    static constexpr int SCREEN_WIDTH = 1024;
+    static constexpr int SCREEN_HEIGHT = 720;
     std::shared_ptr<Camera> cam;
     double deltaTime = 1.0;
     std::shared_ptr<util::Mouse> mouse;
