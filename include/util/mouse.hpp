@@ -5,10 +5,13 @@
 
 #include <SDL.h>
 
-namespace MineyCrafty {
-namespace util {
-
-class Mouse : public std::enable_shared_from_this<Mouse> {
+namespace MineyCrafty
+{
+namespace util
+{
+    
+class Mouse : public std::enable_shared_from_this<Mouse>
+{
 private:
     static inline std::shared_ptr<Mouse> mouse = nullptr;
     int x, y;

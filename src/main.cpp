@@ -29,13 +29,15 @@ MessageCallback(GLenum source,
 }
 
 #ifdef _WIN32
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+{
 #ifdef _DEBUG
 	AllocConsole();
 	freopen("CONOUT$", "w", stdout);
 #endif
 #else
-int main(int argc, char **args) {
+int main(int argc, char **args)
+{
 #endif
 
     mc::Game game;

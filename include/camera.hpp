@@ -32,7 +32,7 @@ public:
     Camera(glm::vec3 pos, glm::vec3 up, glm::vec3 lookAt, int screenWidth, int screenHeight);
     virtual ~Camera();
 
-    void update(int relX, int relY);
+    void update(float relX, float relY);
 
     glm::mat4 getView();
     glm::mat4 getProj();

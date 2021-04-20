@@ -17,7 +17,8 @@ TextureAtlas::TextureAtlas(std::string atlasFilename)
 
 TextureAtlas::~TextureAtlas() { }
 
-void TextureAtlas::init() {
+void TextureAtlas::init()
+{
     int numRows, numCols;
     SDL_Surface *texture = IMG_Load(filename.c_str());
     width = texture->w;
@@ -34,27 +35,32 @@ void TextureAtlas::init() {
 	SDL_FreeSurface(texture);
 }
 
-void TextureAtlas::activate(GLuint program) {
+void TextureAtlas::activate(GLuint program)
+{
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, atlas);
 	glUniform1i(glGetUniformLocation(program, "tex"), 0);
 }
 
-void TextureAtlas::deactivate() {
+void TextureAtlas::deactivate()
+{
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void TextureAtlas::finalise() {
+void TextureAtlas::finalise()
+{
     glDeleteTextures(1, &atlas);
 }
 
 vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
             pair<int, int> forward, pair<int, int> left, pair<int, int> backward,
-            pair<int, int> right, pair<int, int> bottom) {
+            pair<int, int> right, pair<int, int> bottom)
+{
     vector<GLfloat> coords;
     GLfloat pixel = 1.0f / width;
     coords.reserve(36 * 2);
-    if (const auto& [_x, _y] = top; _x >= 0 && _y >= 0) {
+    if (const auto& [_x, _y] = top; _x >= 0 && _y >= 0)
+    {
         GLfloat xleft = (GLfloat)(_x * cellWidth + 1.0f) / width;
         GLfloat ytop = (GLfloat)(_y * cellHeight + 1.0f) / height;
         GLfloat xright = ((GLfloat)(_x * cellWidth - 1.0f) + cellWidth) / width; 
@@ -79,7 +85,8 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
         coords.push_back(ybottom);
     }
 
-    if (const auto& [_x, _y] = forward; _x >= 0 && _y >= 0) {
+    if (const auto& [_x, _y] = forward; _x >= 0 && _y >= 0)
+    {
         GLfloat xleft = (GLfloat)(_x * cellWidth + 1.0f) / width;
         GLfloat ytop = (GLfloat)(_y * cellHeight + 1.0f) / height;
         GLfloat xright = ((GLfloat)(_x * cellWidth - 1.0f) + cellWidth) / width; 
@@ -104,7 +111,8 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
         coords.push_back(ytop);
     }
 
-    if (const auto& [_x, _y] = left; _x >= 0 && _y >= 0) {
+    if (const auto& [_x, _y] = left; _x >= 0 && _y >= 0)
+    {
         GLfloat xleft = (GLfloat)(_x * cellWidth + 1.0f) / width;
         GLfloat ytop = (GLfloat)(_y * cellHeight + 1.0f) / height;
         GLfloat xright = ((GLfloat)(_x * cellWidth - 1.0f) + cellWidth) / width; 
@@ -129,7 +137,8 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
         coords.push_back(ybottom);
     }
 
-    if (const auto& [_x, _y] = backward; _x >= 0 && _y >= 0) {
+    if (const auto& [_x, _y] = backward; _x >= 0 && _y >= 0)
+    {
         GLfloat xleft = (GLfloat)(_x * cellWidth + 1.0f) / width;
         GLfloat ytop = (GLfloat)(_y * cellHeight + 1.0f) / height;
         GLfloat xright = ((GLfloat)(_x * cellWidth - 1.0f) + cellWidth) / width; 
@@ -154,7 +163,8 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
         coords.push_back(ybottom);
     }
 
-    if (const auto& [_x, _y] = right; _x >= 0 && _y >= 0) {
+    if (const auto& [_x, _y] = right; _x >= 0 && _y >= 0)
+    {
         GLfloat xleft = (GLfloat)(_x * cellWidth + 1.0f) / width;
         GLfloat ytop = (GLfloat)(_y * cellHeight + 1.0f) / height;
         GLfloat xright = ((GLfloat)(_x * cellWidth - 1.0f) + cellWidth) / width; 
@@ -179,7 +189,8 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
         coords.push_back(ybottom);
     }
 
-    if (const auto& [_x, _y] = bottom; _x >= 0 && _y >= 0) {
+    if (const auto& [_x, _y] = bottom; _x >= 0 && _y >= 0)
+    {
         GLfloat xleft = (GLfloat)(_x * cellWidth + 1.0f) / width;
         GLfloat ytop = (GLfloat)(_y * cellHeight + 1.0f) / height;
         GLfloat xright = ((GLfloat)(_x * cellWidth - 1.0f) + cellWidth) / width; 
@@ -206,7 +217,8 @@ vector<GLfloat> TextureAtlas::generateTexCoords(pair<int, int> top,
     return coords;
 }
 
-void TextureAtlas::setCellDims(int w, int h) {
+void TextureAtlas::setCellDims(int w, int h)
+{
     cellWidth = w;
     cellHeight = h;
 }

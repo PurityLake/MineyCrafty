@@ -6,7 +6,8 @@ using namespace std;
 using namespace MineyCrafty;
 using namespace util;
 
-Mouse::Mouse() {
+Mouse::Mouse()
+{
     SDL_GetMouseState(&x, &y);
     lastX = x;
     lastY = y;
@@ -14,23 +15,28 @@ Mouse::Mouse() {
 
 Mouse::~Mouse() { }
 
-void Mouse::update() {
+void Mouse::update()
+{
     lastX = x;
     lastY = y;
     SDL_GetMouseState(&x, &y);
-    if (!mouse) {
+    if (!mouse)
+    {
         mouse = shared_from_this();
     }
 }
 
-shared_ptr<Mouse> Mouse::getMouse() {
+shared_ptr<Mouse> Mouse::getMouse()
+{
     return mouse;
 }
 
-std::pair<int, int> Mouse::getPos() {
+std::pair<int, int> Mouse::getPos()
+{
     return pair{x, y};
 }
 
-std::pair<int, int> Mouse::getLastPos() {
+std::pair<int, int> Mouse::getLastPos()
+{
     return pair{lastX, lastY};
 }

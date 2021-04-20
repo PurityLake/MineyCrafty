@@ -39,6 +39,10 @@ private:
 
 	float getNoise(FastNoise &noise, int x, int y);
 
+    bool initSDL();
+    void generateFrameBuffer();
+    void generateQuadBuffer();
+
 public:
     Game();
     virtual ~Game();

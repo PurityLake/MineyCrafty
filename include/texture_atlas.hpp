@@ -14,9 +14,11 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-namespace MineyCrafty {
+namespace MineyCrafty
+{
 
-class TextureAtlas {
+class TextureAtlas
+{
 private:
     std::string filename;
     GLuint atlas;

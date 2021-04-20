@@ -21,9 +21,11 @@
 #include <shader.hpp>
 #include <texture_atlas.hpp>
 
-namespace MineyCrafty {
+namespace MineyCrafty
+{
 
-class Chunk {
+class Chunk
+{
 private:
     int num_verts;
     inline static std::unique_ptr<Shader> shader = nullptr, shadowShader = nullptr;

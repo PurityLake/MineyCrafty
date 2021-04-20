@@ -6,10 +6,13 @@
 
 #include <SDL.h>
 
-namespace MineyCrafty {
-namespace util {
+namespace MineyCrafty
+{
+namespace util
+{
 
-class Timer : public std::enable_shared_from_this<Timer> {
+class Timer : public std::enable_shared_from_this<Timer>
+{
 private:
     uint64_t now, last;
     static inline std::shared_ptr<Timer> timer = nullptr;

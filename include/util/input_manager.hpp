@@ -6,10 +6,13 @@
 
 #include <SDL.h>
 
-namespace MineyCrafty {
-namespace util {
-
-class InputManager : public std::enable_shared_from_this<InputManager> {
+namespace MineyCrafty
+{
+namespace util
+{
+    
+class InputManager : public std::enable_shared_from_this<InputManager>
+{
 private:
     inline static std::shared_ptr<InputManager> inputManager = nullptr;
     const Uint8 *buttonsDown;
