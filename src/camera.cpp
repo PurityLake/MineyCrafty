@@ -28,19 +28,24 @@ Camera::Camera(glm::vec3 pos, glm::vec3 up, glm::vec3 lookAt,
 
 Camera::~Camera() { }
 
-void Camera::update(int relx, int rely) {
+void Camera::update(float relx, float rely) {
     float deltaTime = timer->deltaTime();
-    if (main == nullptr) {
+    if (main == nullptr)
+    {
         main = this->shared_from_this();
     }
     bool updated = false;
-    if (relx != 0.0f && rely != 0.0f) {
+    if (relx != 0.0f && rely != 0.0f)
+    {
         yaw += relx * sensitivity * deltaTime;
         pitch += rely * sensitivity * deltaTime;
 
-        if (pitch > 89.0f) {
+        if (pitch > 89.0f)
+        {
             pitch = 89.0f;
-        } else if (pitch < -89.0f) {
+        }
+        else if (pitch < -89.0f)
+        {
             pitch = -89.0f;
         }
 
@@ -52,47 +57,62 @@ void Camera::update(int relx, int rely) {
             sin(radiansYaw) * cos(radiansPitch)
         ));
         updated = true;
-    } else {
-        if (inputManager->isKeyDown(SDL_SCANCODE_W)) {
+    }
+    else
+    {
+        if (inputManager->isKeyDown(SDL_SCANCODE_W))
+        {
             pos += lookAt * 10.0f * deltaTime;
             updated = true;
-        } else if (inputManager->isKeyDown(SDL_SCANCODE_S)) {
+        }
+        else if (inputManager->isKeyDown(SDL_SCANCODE_S))
+        {
             pos -= lookAt * 10.0f * deltaTime;
             updated = true;
         }
-        if (inputManager->isKeyDown(SDL_SCANCODE_D)) {
+        if (inputManager->isKeyDown(SDL_SCANCODE_D))
+        {
             glm::vec3 rightLookAt = glm::normalize(glm::cross(lookAt, up));
             pos += rightLookAt * 10.0f * deltaTime;
             updated = true;
-        } else if (inputManager->isKeyDown(SDL_SCANCODE_A)) {
+        }
+        else if (inputManager->isKeyDown(SDL_SCANCODE_A))
+        {
             glm::vec3 rightLookAt = glm::normalize(glm::cross(lookAt, up));
             pos -= rightLookAt * 10.0f * deltaTime;
             updated = true;
         }
     }
-    if (updated) {
+    if (updated)
+    {
         view = glm::lookAt(pos, pos + lookAt, up);
     }
 }
 
-glm::mat4 Camera::getView() {
+glm::mat4 Camera::getView()
+{
     return view;
 }
-glm::mat4 Camera::getProj() {
+glm::mat4 Camera::getProj()
+{
     return proj;
 }
-std::shared_ptr<Camera> Camera::getMainCamera() {
-    if (main != nullptr) {
+std::shared_ptr<Camera> Camera::getMainCamera()
+{
+    if (main != nullptr)
+    {
         return main;
     }
     return nullptr;
 }
 
-pair<int, int> Camera::getChunkPos() {
-    return pair{floor(pos.x), floor(pos.z)};
+pair<int, int> Camera::getChunkPos()
+{
+    return pair{(int)floor(pos.x), (int)floor(pos.z)};
 }
 
-glm::vec2 Camera::getChunkFacingDir() {
+glm::vec2 Camera::getChunkFacingDir()
+{
     auto facing = pos + lookAt;
     return glm::vec2(facing.x, facing.z);
 }
