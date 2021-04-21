@@ -35,7 +35,7 @@ void Camera::update(float relx, float rely) {
         main = this->shared_from_this();
     }
     bool updated = false;
-    if (relx != 0.0f && rely != 0.0f)
+    if (relx != 0.0f || rely != 0.0f)
     {
         yaw += relx * sensitivity * deltaTime;
         pitch += rely * sensitivity * deltaTime;
