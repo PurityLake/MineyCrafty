@@ -16,9 +16,11 @@
 # include <OpenGL//glu.h>
 #endif
 
-namespace MineyCrafty {
+namespace MineyCrafty
+{
 
-class Shader {
+class Shader
+{
 private:
     bool valid = false;
     std::string vertFilename, fragFilename;
@@ -44,45 +46,57 @@ public:
     void deactivate();
     void finalise();
 
-	void setMat4(const std::string& name, glm::mat4& value) {
+	void setMat4(const std::string& name, glm::mat4& value)
+	{
 		glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 	}
 
-	void setVec3(const std::string& name, glm::vec3& value) {
+	void setVec3(const std::string& name, glm::vec3& value)
+	{
 		glUniform3f(glGetUniformLocation(program, name.c_str()), value.x, value.y, value.z);
 	}
 
-    const GLuint getProgram() const {
+    const GLuint getProgram() const
+	{
         return program;
     }
 
-    GLint getVert() const {
+    GLint getVert() const
+	{
         return pos;
     }
-    GLint getTexCoord() const {
+    GLint getTexCoord() const
+	{
         return texcoord;
     }
-	GLint getNormal() const {
+	GLint getNormal() const
+	{
 		return normal;
 	}
 
-	bool isStorePos() const {
+	bool isStorePos() const
+	{
 		return storePos;
 	}
-	bool isStoreNormal() const {
+	bool isStoreNormal() const
+	{
 		return storeNormal;
 	}
-	bool isStoreTexCoord() const {
+	bool isStoreTexCoord() const
+	{
 		return storeTexCoord;
 	}
 
-	bool isStoreModel() const {
+	bool isStoreModel() const
+	{
 		return storeModel;
 	}
-	bool isStoreView() const {
+	bool isStoreView() const
+	{
 		return storeView;
 	}
-	bool isStoreProj() const {
+	bool isStoreProj() const
+	{
 		return storeProj;
 	}
 };

@@ -28,7 +28,7 @@ Camera::Camera(glm::vec3 pos, glm::vec3 up, glm::vec3 lookAt,
 
 Camera::~Camera() { }
 
-void Camera::update(float relx, float rely) {
+void Camera::update(int relx, int rely) {
     float deltaTime = timer->deltaTime();
     if (main == nullptr) {
         main = this->shared_from_this();
@@ -89,7 +89,7 @@ std::shared_ptr<Camera> Camera::getMainCamera() {
 }
 
 pair<int, int> Camera::getChunkPos() {
-    return pair{(int)floor(pos.x), (int)floor(pos.z)};
+    return pair{floor(pos.x), floor(pos.z)};
 }
 
 glm::vec2 Camera::getChunkFacingDir() {

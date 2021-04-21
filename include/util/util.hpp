@@ -9,10 +9,13 @@
 #include <util/mouse.hpp>
 #include <util/timer.hpp>
 
-namespace MineyCrafty {
-namespace util {
+namespace MineyCrafty
+{
+namespace util
+{
 
-inline std::string joinPath(std::initializer_list<std::string> paths) {
+inline std::string joinPath(std::initializer_list<std::string> paths)
+{
 #ifdef _WIN32
     static const char pathSep = '\\';
 #else
@@ -21,9 +24,11 @@ inline std::string joinPath(std::initializer_list<std::string> paths) {
     size_t i = 0;
     std::stringstream ss;
     ss << '.' << pathSep;
-    for (const auto& p : paths) {
+    for (const auto& p : paths)
+    {
         ss << p;
-        if (i + 1 < paths.size()) {
+        if (i + 1 < paths.size())
+        {
             ss << pathSep;
         }
         ++i;

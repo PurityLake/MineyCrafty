@@ -14,9 +14,11 @@ Shader::Shader(string vertFilename, string fragFilename,
 	storeTexCoord(storeTexCoord), storeModel(storeModel), storeView(storeView), storeProj(storeProj) { }
 Shader::~Shader() { }
 
-string Shader::readFile(string filename) {
+string Shader::readFile(string filename)
+{
     ifstream in(filename, ios::in);
-    if (in) {
+    if (in)
+    {
         string contents;
         in.seekg(0, ios::end);
         contents.reserve(in.tellg());
@@ -37,11 +39,14 @@ void Shader::init() {
     glCompileShader(vertexShader);
     GLint shaderCompiled = GL_FALSE;
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &shaderCompiled);
-    if (shaderCompiled != GL_TRUE) {
+    if (shaderCompiled != GL_TRUE)
+    {
         cout << "Unable to compile vertex shader '" << vertFilename << '\'' << endl;
         printShaderLog(vertexShader);
         return;
-    } else {
+    }
+    else
+    {
         glAttachShader(program, vertexShader);
         GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
         string fragShaderString = readFile(fragFilename);
@@ -49,38 +54,50 @@ void Shader::init() {
         glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
         glCompileShader(fragmentShader);
         glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &shaderCompiled);
-        if (shaderCompiled != GL_TRUE) {
+        if (shaderCompiled != GL_TRUE)
+        {
             cout << "Unable to compile fragment shader '" << fragFilename << '\'' << endl;
             printShaderLog(fragmentShader);
             return;
-        } else {
+        }
+        else
+        {
             glAttachShader(program, fragmentShader);
             glLinkProgram(program);
             GLint programSuccess = GL_TRUE;
             glGetProgramiv(program, GL_LINK_STATUS, &programSuccess);
-            if (programSuccess != GL_TRUE) {
+            if (programSuccess != GL_TRUE)
+            {
                 cout << "Error linking program " << program << endl;
                 printProgramLog(program);
                 return;
-            } else {
+            }
+            else
+            {
                 glDeleteShader(vertexShader);
                 glDeleteShader(fragmentShader);
-				if (storePos) {
+				if (storePos)
+                {
 					pos = glGetAttribLocation(program, "pos");
 				}
-				if (storeNormal) {
+				if (storeNormal)
+                {
 					normal = glGetAttribLocation(program, "normal");
 				}
-				if (storeTexCoord) {
+				if (storeTexCoord)
+                {
 					texcoord = glGetAttribLocation(program, "texcoord");
 				}
-				if (storeModel) {
+				if (storeModel)
+                {
 					model = glGetUniformLocation(program, "model");
 				}
-				if (storeView) {
+				if (storeView)
+                {
 					view = glGetUniformLocation(program, "view");
 				}
-				if (storeProj) {
+				if (storeProj)
+                {
 					proj = glGetUniformLocation(program, "proj");
 				}
             }
@@ -89,48 +106,59 @@ void Shader::init() {
     valid = true;
 }
 
-void Shader::activate(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p) {
-    if (valid) {
+void Shader::activate(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p)
+{
+    if (valid)
+    {
         glUseProgram(program);
-		if (storeModel) {
+		if (storeModel)
+        {
 			glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(m));
 		}
-		if (storeView) {
+		if (storeView)
+        {
 			glUniformMatrix4fv(view, 1, GL_FALSE, glm::value_ptr(v));
 		}
-		if (storeProj) {
+		if (storeProj)
+        {
 			glUniformMatrix4fv(proj, 1, GL_FALSE, glm::value_ptr(p));
 		}
     }
 }
 
-void Shader::deactivate() {
+void Shader::deactivate()
+{
     glUseProgram(0);
 }
 
-void Shader::finalise() {
+void Shader::finalise()
+{
     glDeleteShader(program);
 }
 
-void Shader::printProgramLog(GLuint program) {
+void Shader::printProgramLog(GLuint program)
+{
     int infoLogLength = 0;
     int maxLength = infoLogLength;
     glGetProgramiv( program, GL_INFO_LOG_LENGTH, &maxLength );
     char* infoLog = new char[ maxLength ];
     glGetProgramInfoLog( program, maxLength, &infoLogLength, infoLog );
-    if( infoLogLength > 0 ) {
+    if( infoLogLength > 0 )
+    {
         cout << infoLog << endl;
     }
     delete[] infoLog;
 }
 
-void Shader::printShaderLog(GLuint shader) {
+void Shader::printShaderLog(GLuint shader)
+{
     int infoLogLength = 0;
     int maxLength = infoLogLength;
     glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &maxLength );
     char* infoLog = new char[ maxLength ];
     glGetShaderInfoLog( shader, maxLength, &infoLogLength, infoLog );
-    if( infoLogLength > 0 ) {
+    if( infoLogLength > 0 )
+    {
         cout << infoLog << endl;
     }
     delete[] infoLog;
