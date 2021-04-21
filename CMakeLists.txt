@@ -44,8 +44,6 @@ if(WIN32)
     find_package(sdl2-mixer CONFIG REQUIRED)
     find_package(sdl2-net CONFIG REQUIRED)
 
-    set(GLEW_INCLUDE_DIRS ${GLEW_PATH}/include)
-
     add_executable(mineycrafty WIN32 ${SOURCES})
 
     target_link_libraries(mineycrafty PRIVATE GLEW::GLEW)

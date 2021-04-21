@@ -271,7 +271,9 @@ void Game::loop() {
                     break;
                 case SDL_MOUSEMOTION:
                     if (!first) {
-                        cam->update(e.motion.xrel, e.motion.yrel);
+                        cam->update(
+							static_cast<float>(e.motion.xrel),
+							static_cast<float>(e.motion.yrel));
                     }
                     break;
             }

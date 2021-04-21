@@ -108,7 +108,7 @@ void Chunk::update(std::shared_ptr<Chunk> left, std::shared_ptr<Chunk> right,
     glBufferData(GL_ARRAY_BUFFER, texcoords.size() * sizeof(glm::vec2), &texcoords[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, normal);
 	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
-	num_verts = vertices.size();
+	num_verts = static_cast<int>(vertices.size());
 }
 
 void Chunk::generateData() {

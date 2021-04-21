@@ -18,7 +18,7 @@ void Timer::start() {
 
 float Timer::deltaTime() {
     now = SDL_GetTicks();
-    return (float)(now - last) / 1000.0;
+    return (float)(now - last) / 1000.0f;
 }
 
 std::shared_ptr<Timer> Timer::getTimer() {
